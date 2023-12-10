@@ -16,32 +16,24 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import http from '../../apis/http'
+import router from '../../router/index'
 
 const username = ref('')
 const password = ref('')
 const confirmPassword = ref('')
 const register = async () => {
-  if (password.value !== confirmPassword.value) {
-    console.error('Passwords do not match')
-    return
-  }
+  const res = await http.post('/user/register', {
+    username: username.value,
+    password: password.value,
+    confirmPassword: confirmPassword.value
+  })
 
-  try {
-    const res = await axios.post('http://localhost:8090/user/register', {
-      username: username.value,
-      password: password.value,
-      confirmPassword: confirmPassword.value
-    })
-
-    if (res.data.code === 0) {
-      console.log('Registration successful:', res.data);
-      alert('Registration successful! Please go to login')
-    } else {
-      console.error('Registration failed:', res.data.message)
-    }
-  } catch (error) {
-    console.error('An error occurred during registration:', error)
+  if (res.code === 0) {
+    alert(res.message)
+    await router.push('/login')
+  } else {
+    alert(res.message)
   }
 }
 </script>

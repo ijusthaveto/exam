@@ -20,25 +20,25 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import http from '@/apis/http'
+import router from '../../router/index'
 
 const username = ref('')
 const password = ref('')
 
-
 const login = async () => {
-  const res = await axios.post('http://localhost:8090/user/login', {
+  const res = await http.post('/user/login', {
     username: username.value,
-    password: password.value,
+    password: password.value
   })
 
-  if (res.data.code === 0) {
-    console.log('Login successful:', res.data)
-    localStorage.setItem('tokenValue', res.data.data.tokenValue)
-    alert(res.data.message)
+  if (res.code === 0) {
+    localStorage.setItem('tokenValue', res.data.tokenValue)
+    localStorage.setItem('tokenName', res.data.tokenName)
+    alert(res.message)
+    await router.push('/')
   } else {
-    console.log('Login failed:', res.data.message)
-    alert(res.data.message)
+    alert(res.message)
   }
 }
 </script>
