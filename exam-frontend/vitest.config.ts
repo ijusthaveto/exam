@@ -1,10 +1,11 @@
 import { fileURLToPath } from 'node:url'
-import { mergeConfig, defineConfig, configDefaults } from 'vitest/config'
-import viteConfig from './vite.config'
+import { configDefaults, defineConfig } from 'vitest/config'
 
-export default mergeConfig(
-  viteConfig,
+export default defineConfig(
   defineConfig({
+    server: {
+      port: 8088
+    },
     test: {
       environment: 'jsdom',
       exclude: [...configDefaults.exclude, 'e2e/*'],

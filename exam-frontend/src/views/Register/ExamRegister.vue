@@ -3,11 +3,11 @@
     <h2>Register</h2>
     <form @submit.prevent="register">
       <label for="username">Username:</label>
-      <input type="text" id="username" v-model="username" required><br>
+      <input type="text" id="username" v-model="username" required /><br />
       <label for="password">Password:</label>
-      <input type="password" id="password" v-model="password" required><br>
+      <input type="password" id="password" v-model="password" required /><br />
       <label for="confirmPassword">Confirm Password:</label>
-      <input type="password" id="confirmPassword" v-model="confirmPassword" required><br>
+      <input type="password" id="confirmPassword" v-model="confirmPassword" required /><br />
       <button type="submit">Register</button>
     </form>
     <router-link to="/login">Already have an account? Login here.</router-link>
@@ -15,32 +15,35 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref } from 'vue'
+import axios from 'axios'
 
-const username = ref("");
-const password = ref("");
-const confirmPassword = ref("");
+const username = ref('')
+const password = ref('')
+const confirmPassword = ref('')
 const register = async () => {
-  // Check if passwords match
   if (password.value !== confirmPassword.value) {
-    console.error("Passwords do not match");
-    return;
+    console.error('Passwords do not match')
+    return
   }
 
   try {
-    const response = await axios.post('http://localhost:8090/user/register', {
+    const res = await axios.post('http://localhost:8090/user/register', {
       username: username.value,
       password: password.value,
       confirmPassword: confirmPassword.value
-    });
+    })
 
-    // Handle the response as needed
-    console.log("Registration successful:", response.data);
+    if (res.data.code === 0) {
+      console.log('Registration successful:', res.data);
+      alert('Registration successful! Please go to login')
+    } else {
+      console.error('Registration failed:', res.data.message)
+    }
   } catch (error) {
-    // Handle errors
-    console.error("Registration failed:", error.response.data);
+    console.error('An error occurred during registration:', error)
   }
-};
+}
 </script>
 
 <style scoped>

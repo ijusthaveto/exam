@@ -5,19 +5,24 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      redirect: '/login'
+      component: () => import('@/views/Layout/ExamLayout.vue'),
+      children: [
+        {
+          path: '',
+          component: () => import('@/views/Home/ExamHome.vue')
+        }
+      ]
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/ExamLogin.vue')
+      component: () => import('@/views/Login/ExamLogin.vue')
     },
     {
       path: '/register',
       name: 'register',
-      component: () => import('@/views/ExamRegister.vue')
-    },
+      component: () => import('@/views/Register/ExamRegister.vue')
+    }
   ]
 })
 

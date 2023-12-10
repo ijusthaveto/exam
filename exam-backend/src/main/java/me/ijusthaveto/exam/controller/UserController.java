@@ -7,13 +7,11 @@ import me.ijusthaveto.exam.domain.User;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
 import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.service.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
