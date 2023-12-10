@@ -3,9 +3,15 @@
     <h2>Login</h2>
     <form @submit.prevent="login">
       <label for="username">Username:</label>
-      <input type="text" v-model="username" id="username" placeholder="username" required><br>
+      <input type="text" v-model="username" id="username" placeholder="username" required /><br />
       <label for="password">Password:</label>
-      <input type="password" v-model="password" id="password" placeholder="password" required><br>
+      <input
+        type="password"
+        v-model="password"
+        id="password"
+        placeholder="password"
+        required
+      /><br />
       <button type="submit">Login</button>
     </form>
     <router-link to="/register">Don't have an account? Register here.</router-link>
@@ -13,17 +19,28 @@
 </template>
 
 <script setup>
-
-import {ref} from "vue";
+import { ref } from 'vue'
+import axios from 'axios'
 
 const username = ref('')
 const password = ref('')
 
-const login = () => {
-  console.log('username:', username.value)
-  console.log('password:', password.value)
-}
 
+const login = async () => {
+  const res = await axios.post('http://localhost:8090/user/login', {
+    username: username.value,
+    password: password.value,
+  })
+
+  if (res.data.code === 0) {
+    console.log('Login successful:', res.data)
+    localStorage.setItem('tokenValue', res.data.data.tokenValue)
+    alert(res.data.message)
+  } else {
+    console.log('Login failed:', res.data.message)
+    alert(res.data.message)
+  }
+}
 </script>
 
 <style scoped>

@@ -2,6 +2,7 @@ package me.ijusthaveto.exam.service;
 
 import me.ijusthaveto.exam.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.ijusthaveto.exam.domain.dto.UserLoginDto;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
 
 /**
@@ -12,4 +13,7 @@ import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
 public interface UserService extends IService<User> {
 
     void register(UserRegisterDto dto);
+
+    void login(UserLoginDto dto);
+
 }

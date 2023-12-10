@@ -14,6 +14,7 @@ public enum ErrorCode {
     REGISTER_ERROR(40102, "注册失败", ""),
     LOGIN_ERROR(40103, "登录失败", ""),
     USERNAME_ERROR(40104, "用户名重复", ""),
+    USER_NOT_EXIST_ERROR(40105, "用户不存在", ""),
     CONFIRM_ERROR(40105, "验证错误", ""),
     SYSTEM_ERROR(50000, "系统内部异常", "");
 

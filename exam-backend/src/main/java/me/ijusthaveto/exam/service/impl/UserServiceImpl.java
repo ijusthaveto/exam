@@ -1,8 +1,10 @@
 package me.ijusthaveto.exam.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.ijusthaveto.exam.domain.User;
+import me.ijusthaveto.exam.domain.dto.UserLoginDto;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
 import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.service.UserService;
@@ -47,6 +49,24 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (insert != 1) {
             throw new BusinessException(REGISTER_ERROR);
         }
+    }
+
+    @Override
+    public void login(UserLoginDto dto) {
+        String password = dto.getPassword();
+        String username = dto.getUsername();
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUsername, username);
+        Long count = baseMapper.selectCount(wrapper);
+        if (count != 1) {
+            throw new BusinessException(USER_NOT_EXIST_ERROR);
+        }
+        User user = baseMapper.selectOne(wrapper);
+        if (!user.getPasswordHash().equals(password)) {
+            throw new BusinessException(LOGIN_ERROR);
+        }
+
+        StpUtil.login(user.getUserId());
     }
 }
 
