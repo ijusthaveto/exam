@@ -34,4 +34,10 @@ public class UserController {
         return ResultUtils.success(StpUtil.getTokenInfo());
     }
 
+    @PostMapping("/logout")
+    public BaseResponse logout() {
+        StpUtil.logout(StpUtil.getLoginId());
+        return ResultUtils.success(null);
+    }
+
 }

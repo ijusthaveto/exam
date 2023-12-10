@@ -8,13 +8,11 @@ import me.ijusthaveto.exam.common.ResultUtils;
 import me.ijusthaveto.exam.domain.Question;
 import me.ijusthaveto.exam.domain.dto.QuestionPageDto;
 import me.ijusthaveto.exam.service.QuestionService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/question")
 public class QuestionController {
