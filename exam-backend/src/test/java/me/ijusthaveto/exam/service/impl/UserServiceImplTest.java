@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -31,5 +33,10 @@ class UserServiceImplTest {
         wrapper.eq(User::getUsername, dto.getUsername());
         User one = userService.getOne(wrapper);
         System.out.println(one.toString());
+    }
+
+    @Test
+    void generateAdminCode() {
+        System.out.println(UUID.randomUUID().toString());
     }
 }
