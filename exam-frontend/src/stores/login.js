@@ -8,6 +8,4 @@ export const useLoginStore = defineStore('login', {
         tokenValue: undefined
     }),
 
-    actions: {
-    }
 })

@@ -26,18 +26,16 @@ const router = createRouter({
       component: Login
     },
     {
+      path: '/adminLogin',
+      component: AdminLogin
+    },
+    {
       path: '/register',
       component: Register
     },
     {
       path: '/admin',
-      component: Admin,
-      children: [
-        {
-          path: '',
-          component: AdminLogin
-        }
-      ]
+      component: Admin
     },
     {
       path: '/user',

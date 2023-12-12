@@ -10,7 +10,7 @@
             <router-link to="/login" style="color: white">Sign in</router-link>
           </el-col>
           <el-col :span="2">
-            <router-link to="/admin" style="color: white">Admin here</router-link>
+            <router-link to="/adminLogin" style="color: white">Admin here</router-link>
           </el-col>
         </el-row>
       </el-header>
