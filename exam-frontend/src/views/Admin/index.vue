@@ -14,15 +14,82 @@
           </el-col>
         </el-row>
       </el-header>
-      <el-main>
-        我是管理员主页
-      </el-main>
+      <el-container>
+        <el-aside width="260px">
+          <el-scrollbar height="690px">
+            <el-menu default-active="2" text-color="white"  background-color="#0d1117" style="border:none" @open="handleOpen" @close="handleClose">
+              <el-sub-menu index="1">
+                <template #title>
+                  <el-icon>
+                    <user />
+                  </el-icon>
+                  <span>Student Information</span>
+                </template>
+                <el-menu-item-group>
+                  <el-menu-item index="1-1">Student Import</el-menu-item>
+                  <el-menu-item index="1-2">Student Management</el-menu-item>
+                </el-menu-item-group>
+              </el-sub-menu>
+              <el-sub-menu index="2">
+                <template #title>
+                  <el-icon><EditPen /></el-icon>
+                  <span>Question Management</span>
+                </template>
+                <el-menu-item-group>
+                  <el-menu-item index="2-1">Question Bank</el-menu-item>
+                  <el-menu-item index="2-2">Single Choice Question</el-menu-item>
+                  <el-menu-item index="2-3">Multiple Choice Question</el-menu-item>
+                  <el-menu-item index="2-4">True/False Question</el-menu-item>
+                  <el-menu-item index="2-5">Test Paper Import</el-menu-item>
+                </el-menu-item-group>
+              </el-sub-menu>
+              <el-sub-menu index="3">
+                <template #title>
+                  <el-icon><Tickets /></el-icon>
+                  <span>Exam Paper Management</span>
+                </template>
+                <el-menu-item-group>
+                  <el-menu-item index="3-1">Exam Paper Generation</el-menu-item>
+                  <el-menu-item index="3-2">Exam Paper Administration</el-menu-item>
+                </el-menu-item-group>
+              </el-sub-menu>
+              <el-sub-menu index="4">
+                <template #title>
+                  <el-icon><Checked /></el-icon>
+                  <span>Grade Management</span>
+                </template>
+                <el-menu-item-group>
+                  <el-menu-item index="4-1">Student Grade Management</el-menu-item>
+                </el-menu-item-group>
+              </el-sub-menu>
+            </el-menu>
+          </el-scrollbar>
+        </el-aside>
+        <el-main>
+          Main
+        </el-main>
+      </el-container>
     </el-container>
   </div>
 </template>
 
 <script setup>
-
+import {
+  Document,
+  Menu as IconMenu,
+  Location,
+  EditPen,
+  Setting,
+  User,
+  Tickets,
+  Checked
+} from '@element-plus/icons-vue'
+const handleOpen = (key, keyPath) => {
+  console.log(key, keyPath)
+}
+const handleClose = (key, keyPath) => {
+  console.log(key, keyPath)
+}
 </script>
 
 <style scoped>
@@ -62,5 +129,6 @@ el-main {
   margin: 5px;
   display: grid;
   place-items: center;
-}</style>
+}
+</style>
 
