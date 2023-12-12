@@ -27,7 +27,9 @@
                 {{ index + 1 }}.{{ item.questionContent }}
               </p>
               <el-radio-group>
-                <el-radio :label="2" v-for="index in JSON.parse(item.options)" :key="index">{{ index }}.{{ JSON.parse(item.options).index }}</el-radio>
+                <el-radio :label="2" v-for="index in JSON.parse(item.options)" :key="index">
+                  {{ index }}.{{ JSON.parse(item.options).index }}
+                </el-radio>
               </el-radio-group>
             </div>
             <h2>0x02. Multiple Choice</h2>
