@@ -4,7 +4,6 @@ import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import me.ijusthaveto.exam.common.BaseResponse;
 import me.ijusthaveto.exam.common.ResultUtils;
-import me.ijusthaveto.exam.constant.ResultConstant;
 import me.ijusthaveto.exam.service.AdminService;
 import org.springframework.web.bind.annotation.*;
 

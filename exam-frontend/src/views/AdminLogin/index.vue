@@ -1,6 +1,6 @@
 <script setup>
 import httpInstance from '@/utils/http';
-import ref from 'vue'
+import {ref} from 'vue'
 
 const secretCode = ref('')
 const adminLogin = async () => {
