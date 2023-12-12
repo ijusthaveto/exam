@@ -11,6 +11,15 @@ import Student from '@/views/Admin/components/Student/index.vue'
 import Question from '@/views/Admin/components/Question/index.vue'
 import Grade from '@/views/Admin/components/Grade/index.vue'
 import ExamManagement from '@/views/Admin/components/Exam/index.vue'
+import StudentImportVue from '@/components/Student/StudentImport.vue'
+import StudentGradeManagementVue from '@/components/Grade/StudentGradeManagement.vue'
+import BoolQuestionVue from '@/components/Question/BoolQuestion.vue'
+import MultipleChoiceVue from '@/components/Question/MultipleChoice.vue'
+import QuestionBankVue from '@/components/Question/QuestionBank.vue'
+import SingleChoiceVue from '@/components/Question/SingleChoice.vue'
+import TestPaperImportVue from '@/components/Question/TestPaperImport.vue'
+import PaperAdministrationVue from '@/components/Exam/PaperAdministration.vue'
+import PaperGenerationVue from '@/components/Exam/PaperGeneration.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,19 +52,67 @@ const router = createRouter({
       children: [
         {
           path: 'student',
-          component: Student
+          component: Student,
+          children: [
+            {
+              path: 'import',
+              component: StudentImportVue
+            },
+            {
+              path: '',
+              component: StudentGradeManagementVue
+            }
+          ]
         },
         {
           path: 'question',
-          component: Question
+          component: Question,
+          children: [
+            {
+              path: 'bool',
+              component: BoolQuestionVue
+            },
+            {
+              path: 'multi',
+              component: MultipleChoiceVue
+            },
+            {
+              path: '',
+              component: QuestionBankVue
+            },
+            {
+              path: 'single',
+              component: SingleChoiceVue
+            },
+            {
+              path: 'import',
+              component: TestPaperImportVue
+            }
+          ]
         },
         {
           path: 'exam',
-          component: ExamManagement
+          component: ExamManagement,
+          children: [
+            {
+              path: '',
+              component: PaperAdministrationVue
+            },
+            {
+              path: 'generate',
+              component: PaperGenerationVue
+            }
+          ]
         },
         {
           path: 'grade',
-          component: Grade
+          component: Grade,
+          children: [
+            {
+              path: '',
+              component: StudentGradeManagementVue
+            }
+          ]
         }
       ]
     },

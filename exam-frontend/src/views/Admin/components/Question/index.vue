@@ -1,5 +1,5 @@
 <template>
-    <div>Question Home</div>
+  <RouterView />
   </template>
   
   <script setup>

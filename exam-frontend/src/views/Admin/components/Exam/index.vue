@@ -1,5 +1,5 @@
 <template>
-    <div>Exam Home</div>
+  <RouterView />
   </template>
   
   <script setup>

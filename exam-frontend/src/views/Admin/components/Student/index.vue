@@ -1,10 +1,8 @@
 <template>
-    <div>Student Home</div>
-  </template>
+  <RouterView />
+</template>
   
-  <script setup>
-  </script>
+<script setup>
+</script>
   
-  <style>
-  
-  </style>
+<style></style>
