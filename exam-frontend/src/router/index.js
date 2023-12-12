@@ -7,6 +7,10 @@ import Admin from '@/views/Admin/index.vue'
 import AdminLogin from '@/views/AdminLogin/index.vue'
 import User from '@/views/User/index.vue'
 import Exam from '@/views/User/components/Exam.vue'
+import Student from '@/views/Admin/components/Student/index.vue'
+import Question from '@/views/Admin/components/Question/index.vue'
+import Grade from '@/views/Admin/components/Grade/index.vue'
+import ExamManagement from '@/views/Admin/components/Exam/index.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,9 +40,24 @@ const router = createRouter({
     {
       path: '/admin',
       component: Admin,
-      children: {
-        path: ''
-      }
+      children: [
+        {
+          path: 'student',
+          component: Student
+        },
+        {
+          path: 'question',
+          component: Question
+        },
+        {
+          path: 'exam',
+          component: ExamManagement
+        },
+        {
+          path: 'grade',
+          component: Grade
+        }
+      ]
     },
     {
       path: '/user',
