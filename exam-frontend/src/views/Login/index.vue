@@ -15,15 +15,13 @@
         </el-row>
       </el-header>
       <el-main>
-        <el-form
-          style="
+        <el-form style="
             min-width: 460px;
             position: absolute;
             top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
-          "
-        >
+          ">
           <el-form-item style="font-family: ui-monospace">
             How have you been lately?<br />
             Let's begin the adventure
@@ -32,17 +30,10 @@
             <el-input placeholder="Username" v-model="username" type="text" style="height: 50px" />
           </el-form-item>
           <el-form-item>
-            <el-input
-              placeholder="Password"
-              v-model="password"
-              type="password"
-              style="height: 50px"
-            />
+            <el-input placeholder="Password" v-model="password" type="password" style="height: 50px" />
           </el-form-item>
           <el-form-item>
-            <el-link @click="login" style="position: absolute; right: 0%; font-size: 16px"
-              >Continue</el-link
-            >
+            <el-link @click="login" style="position: absolute; right: 0%; font-size: 16px">Continue</el-link>
           </el-form-item>
         </el-form>
       </el-main>
@@ -52,10 +43,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import httpInstance from '@/utils/http'
-import {ElMessage} from "element-plus";
+import { useLoginStore } from '@/stores/login';
 import router from '@/router/index'
+import httpInstance from '@/utils/http';
 
+const loginStore = useLoginStore()
 const username = ref('')
 const password = ref('')
 
@@ -65,16 +57,13 @@ const login = async () => {
     password: password.value
   })
   if (res.code === 0) {
-    ElMessage.success('Login successful.')
-    localStorage.setItem('tokenName', res.data.tokenName)
-    localStorage.setItem('tokenValue', res.data.tokenValue)
-    localStorage.setItem('loginId', res.data.loginId)
+    loginStore.$patch((state) => {
+      state.loginId = res.data.loginId
+      state.tokenName = res.data.tokenName
+      state.tokenValue = res.data.tokenValue
+    })
     router.push('/user')
-  } else {
-    ElMessage.error(res.data.message)
-    router.push('/login')
   }
-
 }
 </script>
 
@@ -83,16 +72,19 @@ const login = async () => {
   color: white;
   height: 100vh;
 }
+
 el-container {
   display: flex;
   flex-direction: column;
   height: 100%;
 }
+
 .nav {
   flex: 0 0 auto;
   padding-top: 20px;
   background-color: #24292f;
 }
+
 el-main {
   flex: 1 0 auto;
 }
