@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mysql.cj.util.StringUtils;
 import me.ijusthaveto.exam.common.BaseResponse;
+import me.ijusthaveto.exam.common.ErrorCode;
 import me.ijusthaveto.exam.common.ResultUtils;
+import me.ijusthaveto.exam.constant.ResultConstant;
 import me.ijusthaveto.exam.domain.Question;
 import me.ijusthaveto.exam.domain.dto.QuestionPageDto;
+import me.ijusthaveto.exam.service.ExamquestionService;
 import me.ijusthaveto.exam.service.QuestionService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +22,32 @@ public class QuestionController {
     @Resource
     private QuestionService questionService;
 
+    /**
+     * 题目分页查询
+     * @param dto
+     * @return
+     */
     @GetMapping("/page")
     public BaseResponse<Page> page(@RequestBody QuestionPageDto dto) {
         Page<Question> page = buildPage(dto.getPage(), dto.getSize());
         LambdaQueryWrapper<Question> wrapper = buildQueryWrapper(dto);
 
         return ResultUtils.success(questionService.page(page, wrapper));
+    }
+
+    @PostMapping("/add")
+    public BaseResponse save(@RequestBody Question question) {
+        boolean saveResult = questionService.save(question);
+        if (saveResult) {
+            return ResultUtils.success(ResultConstant.ADD_QUESTION_SUCCESS);
+        }
+        return ResultUtils.error(ErrorCode.QUESTION_ADD_ERROR);
+    }
+
+    @DeleteMapping("/delete/{questionId}")
+    public BaseResponse delete(@PathVariable Integer questionId) {
+        questionService.deleteQuestion(questionId);
+        return ResultUtils.success(ResultConstant.REMOVE_QUESTION_SUCCESS);
     }
 
     private Page<Question> buildPage(Integer page, Integer size) {
