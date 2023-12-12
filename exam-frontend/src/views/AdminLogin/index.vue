@@ -1,13 +1,22 @@
 <script setup>
 import httpInstance from '@/utils/http';
-import {ref} from 'vue'
+import {useAdminStore} from '@/stores/admin'
+import { ref } from 'vue'
+import router from '@/router';
+
+const adminStore = useAdminStore()
 
 const secretCode = ref('')
 const adminLogin = async () => {
-  const res = httpInstance.post('/admin/login', {
+  const res = await httpInstance.post('/admin/login', {
     secretCode: secretCode.value
   })
-  console.log(res)
+  if (res.code === 0) {
+    adminStore.tokenName = res.data.tokenName
+    adminStore.tokenValue = res.data.tokenValue
+    adminStore.loginId = res.data.loginId
+    router.push('/admin')
+  }
 }
 
 </script>
