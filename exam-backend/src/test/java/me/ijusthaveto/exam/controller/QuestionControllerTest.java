@@ -30,7 +30,7 @@ class QuestionControllerTest {
         final Integer score = 2;
 
         Question question = new Question();
-        question.setQuestionBankId(1);
+        question.setSubjectId(1);
         question.setDifficultyLevel(QuestionConstant.EASY_LEVEL);
         question.setQuestionType(QuestionConstant.SINGLE_CHOICE);
         question.setQuestionContent(questionContent);

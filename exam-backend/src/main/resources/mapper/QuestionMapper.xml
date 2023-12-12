@@ -6,7 +6,7 @@
 
     <resultMap id="BaseResultMap" type="me.ijusthaveto.exam.domain.Question">
             <id property="questionId" column="questionId" jdbcType="INTEGER"/>
-            <result property="questionBankId" column="questionBankId" jdbcType="INTEGER"/>
+            <result property="subjectId" column="subjectId" jdbcType="INTEGER"/>
             <result property="questionType" column="questionType" jdbcType="VARCHAR"/>
             <result property="difficultyLevel" column="difficultyLevel" jdbcType="VARCHAR"/>
             <result property="questionContent" column="questionContent" jdbcType="VARCHAR"/>
@@ -16,7 +16,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        questionId,questionBankId,questionType,
+        questionId,subjectId,questionType,
         difficultyLevel,questionContent,options,
         correctAnswer,score
     </sql>

@@ -35,6 +35,7 @@ public class QuestionController {
         return ResultUtils.success(questionService.page(page, wrapper));
     }
 
+
     /**
      * 添加题目
      * @param question
@@ -67,8 +68,8 @@ public class QuestionController {
     private LambdaQueryWrapper<Question> buildQueryWrapper(QuestionPageDto dto) {
         LambdaQueryWrapper<Question> wrapper = new LambdaQueryWrapper<>();
 
-        if (dto.getQuestionBankId() != null) {
-            wrapper.eq(Question::getQuestionBankId, dto.getQuestionBankId());
+        if (dto.getSubjectId() != null) {
+            wrapper.eq(Question::getSubjectId, dto.getSubjectId());
         }
         if (!StringUtils.isNullOrEmpty(dto.getQuestionType())) {
             wrapper.eq(Question::getQuestionType, dto.getQuestionType());

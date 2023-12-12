@@ -23,7 +23,7 @@ public class Question implements Serializable {
     /**
      *
      */
-    private Integer questionBankId;
+    private Integer subjectId;
 
     /**
      *

@@ -15,7 +15,7 @@
         </el-row>
       </el-header>
       <el-container>
-        <el-aside width="260px">
+        <el-aside width="255px">
           <el-scrollbar height="690px">
             <el-menu default-active="2" text-color="white" background-color="#0d1117" style="border:none"
               @open="handleOpen" @close="handleClose">
