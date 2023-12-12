@@ -75,11 +75,7 @@
 
 <script setup>
 import {
-  Document,
-  Menu as IconMenu,
-  Location,
   EditPen,
-  Setting,
   User,
   Tickets,
   Checked
