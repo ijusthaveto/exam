@@ -1,5 +1,5 @@
 <template>
-  <RouterView />
+    <div>Grade Home</div>
   </template>
   
   <script setup>
