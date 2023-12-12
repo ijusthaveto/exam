@@ -35,6 +35,11 @@ public class QuestionController {
         return ResultUtils.success(questionService.page(page, wrapper));
     }
 
+    /**
+     * 添加题目
+     * @param question
+     * @return
+     */
     @PostMapping("/add")
     public BaseResponse save(@RequestBody Question question) {
         boolean saveResult = questionService.save(question);
@@ -44,7 +49,12 @@ public class QuestionController {
         return ResultUtils.error(ErrorCode.QUESTION_ADD_ERROR);
     }
 
-    @DeleteMapping("/delete/{questionId}")
+    /**
+     * 删除题目
+     * @param questionId
+     * @return
+     */
+    @DeleteMapping("/{questionId}")
     public BaseResponse delete(@PathVariable Integer questionId) {
         questionService.deleteQuestion(questionId);
         return ResultUtils.success(ResultConstant.REMOVE_QUESTION_SUCCESS);
