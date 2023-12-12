@@ -1,23 +1,5 @@
 <script setup>
-import httpInstance from '@/utils/http';
-import {useAdminStore} from '@/stores/admin'
-import { ref } from 'vue'
-import router from '@/router';
-
-const adminStore = useAdminStore()
-
-const secretCode = ref('')
-const adminLogin = async () => {
-  const res = await httpInstance.post('/admin/login', {
-    secretCode: secretCode.value
-  })
-  if (res.code === 0) {
-    adminStore.tokenName = res.data.tokenName
-    adminStore.tokenValue = res.data.tokenValue
-    adminStore.loginId = res.data.loginId
-    router.push('/admin')
-  }
-}
+import AdminLoginForm from '@/components/Admin/AdminLoginForm.vue'
 
 </script>
 
@@ -38,29 +20,11 @@ const adminLogin = async () => {
         </el-row>
       </el-header>
       <el-main>
-        <el-form style="
-            min-width: 460px;
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-          ">
-          <el-form-item style="font-family: ui-monospace">
-            How have you been lately?<br />
-            Let's begin the adventure
-          </el-form-item>
-          <el-form-item>
-            <el-input placeholder="Secret Code" v-model="secretCode" type="text" style="height: 50px" />
-          </el-form-item>
-          <el-form-item>
-            <el-link @click="adminLogin" style="position: absolute; right: 0%; font-size: 16px">Continue</el-link>
-          </el-form-item>
-        </el-form>
+        <AdminLoginForm />
       </el-main>
     </el-container>
   </div>
 </template>
-
 <style scoped>
 .main-container {
   color: white;

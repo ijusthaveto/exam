@@ -1,17 +1,10 @@
 <script setup>
-import httpInstance from '@/utils/http.js'
 import { onMounted, ref } from 'vue'
-import { useLoginStore } from '@/stores/login';
 import { useRouter } from 'vue-router'
+import { useExamStore } from '@/stores/examStore';
 
 const examList = ref([])
-const store = useLoginStore()
-
-const loginId = store.loginId
-const selectExamListById = async () => {
-  const res = await httpInstance.get(`/exam/list/${loginId}`)
-  examList.value = res.data
-}
+const store = useExamStore()
 
 const router = useRouter()
 
@@ -26,7 +19,7 @@ const viewExam = (id) => {
 }
 
 onMounted(() => {
-  selectExamListById()
+  store.selectExamListById()
 })
 </script>
 <template>
@@ -47,7 +40,7 @@ onMounted(() => {
       </el-header>
       <el-main>
         <el-row :gutter="20">
-          <el-col :span="5" v-for="item in examList" :key="item.examId">
+          <el-col :span="5" v-for="item in store.examList" :key="item.examId">
             <div class="exam-container">
               <div class="exam-title exam-item">{{ item.examTitle }}</div>
               <div class="exam-start-time exam-item">{{ item.startTime }}</div>

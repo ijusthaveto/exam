@@ -41,30 +41,27 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
-import { useLoginStore } from '@/stores/login';
-import router from '@/router/index'
+<script setup>
+import { ref } from 'vue';
+import router from '@/router/index';
 import httpInstance from '@/utils/http';
 
-const loginStore = useLoginStore()
-const username = ref('')
-const password = ref('')
+const username = ref('');
+const password = ref('');
 
 const login = async () => {
   const res = await httpInstance.post('/user/login', {
     username: username.value,
-    password: password.value
-  })
+    password: password.value,
+  });
+
   if (res.code === 0) {
-    loginStore.$patch((state) => {
-      state.loginId = res.data.loginId
-      state.tokenName = res.data.tokenName
-      state.tokenValue = res.data.tokenValue
-    })
-    router.push('/user')
+    localStorage.setItem('tokenName', res.data.tokenName)
+    localStorage.setItem('tokenValue', res.data.tokenValue)
+    localStorage.setItem('loginId', res.data.loginId)
+    router.push('/user');
   }
-}
+};
 </script>
 
 <style scoped>
@@ -89,3 +86,4 @@ el-main {
   flex: 1 0 auto;
 }
 </style>
+@/stores/loginStore
