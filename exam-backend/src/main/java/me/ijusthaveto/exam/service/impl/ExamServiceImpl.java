@@ -3,11 +3,11 @@ package me.ijusthaveto.exam.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.ijusthaveto.exam.domain.Exam;
 import me.ijusthaveto.exam.domain.Question;
+import me.ijusthaveto.exam.mapper.ExamMapper;
 import me.ijusthaveto.exam.mapper.ExamquestionMapper;
 import me.ijusthaveto.exam.mapper.QuestionMapper;
 import me.ijusthaveto.exam.mapper.StudentexamMapper;
 import me.ijusthaveto.exam.service.ExamService;
-import me.ijusthaveto.exam.mapper.ExamMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

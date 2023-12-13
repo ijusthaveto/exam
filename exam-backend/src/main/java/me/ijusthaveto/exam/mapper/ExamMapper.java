@@ -1,7 +1,7 @@
 package me.ijusthaveto.exam.mapper;
 
-import me.ijusthaveto.exam.domain.Exam;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import me.ijusthaveto.exam.domain.Exam;
 
 /**
 * @author 修雯天

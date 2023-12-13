@@ -1,7 +1,7 @@
 package me.ijusthaveto.exam.service;
 
-import me.ijusthaveto.exam.domain.Exam;
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.ijusthaveto.exam.domain.Exam;
 import me.ijusthaveto.exam.domain.Question;
 
 import java.util.List;

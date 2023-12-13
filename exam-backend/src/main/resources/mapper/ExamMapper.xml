@@ -9,10 +9,20 @@
             <result property="examTitle" column="examTitle" jdbcType="VARCHAR"/>
             <result property="startTime" column="startTime" jdbcType="TIMESTAMP"/>
             <result property="endTime" column="endTime" jdbcType="TIMESTAMP"/>
+            <result property="bankId" column="bankId" jdbcType="INTEGER"/>
+            <result property="limitTime" column="limitTime" jdbcType="INTEGER"/>
+            <result property="singleNum" column="singleNum" jdbcType="INTEGER"/>
+            <result property="singleScore" column="singleScore" jdbcType="DOUBLE"/>
+            <result property="multipleNum" column="multipleNum" jdbcType="INTEGER"/>
+            <result property="multipleScore" column="multipleScore" jdbcType="DOUBLE"/>
+            <result property="boolNum" column="boolNum" jdbcType="INTEGER"/>
+            <result property="boolScore" column="boolScore" jdbcType="DOUBLE"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         examId,examTitle,startTime,
-        endTime
+        endTime,bankId,limitTime,
+        singleNum,singleScore,multipleNum,
+        multipleScore,boolNum,boolScore
     </sql>
 </mapper>
