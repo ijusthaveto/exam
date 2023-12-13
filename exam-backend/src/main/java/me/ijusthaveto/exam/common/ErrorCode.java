@@ -22,6 +22,7 @@ public enum ErrorCode {
     QUESTION_REMOVE_ERROR(40107, ResultConstant.REMOVE_QUESTION_ERROR, ""),
     QUESTION_NOT_EXISTS(40108, ResultConstant.QUESTION_NOT_EXISTS, ""),
     ADMIN_NOT_EXISTS(40109, ResultConstant.ADMIN_NOT_EXISTS, ""),
+    EXAM_SUM_SCORE_ERROR(40110, ResultConstant.EXAM_SCORE_ERROR, ""),
     SYSTEM_ERROR(50000, "系统内部异常", "");
 
     private final int code;

@@ -3,6 +3,7 @@ package me.ijusthaveto.exam.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.ijusthaveto.exam.domain.Exam;
 import me.ijusthaveto.exam.domain.Question;
+import me.ijusthaveto.exam.domain.dto.ExamDto;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface ExamService extends IService<Exam> {
     List<Exam> selectExamListById(Integer loginId);
 
     List<Question> selectQuestionListByExamId(Integer examId);
+
+    void addExam(ExamDto dto);
 }

@@ -3,8 +3,10 @@ package me.ijusthaveto.exam.controller;
 import lombok.extern.slf4j.Slf4j;
 import me.ijusthaveto.exam.common.BaseResponse;
 import me.ijusthaveto.exam.common.ResultUtils;
+import me.ijusthaveto.exam.constant.ResultConstant;
 import me.ijusthaveto.exam.domain.Exam;
 import me.ijusthaveto.exam.domain.Question;
+import me.ijusthaveto.exam.domain.dto.ExamDto;
 import me.ijusthaveto.exam.service.ExamService;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,12 @@ import java.util.List;
 public class ExamController {
     @Resource
     private ExamService examService;
+
+    @PostMapping("/add")
+    public BaseResponse<String> addExam(@RequestBody ExamDto dto) {
+        examService.addExam(dto);
+        return ResultUtils.success(ResultConstant.ADD_EXAM_SUCCESS);
+    }
 
     /**
      * 获取学生所有考试列表
