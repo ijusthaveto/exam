@@ -12,6 +12,7 @@ import me.ijusthaveto.exam.mapper.ExamquestionMapper;
 import me.ijusthaveto.exam.mapper.QuestionMapper;
 import me.ijusthaveto.exam.mapper.StudentexamMapper;
 import me.ijusthaveto.exam.service.ExamService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -66,18 +67,19 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
 
     @Override
     public void addExam(ExamDto dto) {
-//        1. 判断试卷的分值是否正常
-//          1.1 计算试卷分数
+
         double singleSumScore = dto.getSingleScore() * dto.getSingleNum();
         double multipleSumScore = dto.getMultipleScore() * dto.getMultipleNum();
         double boolSumScore = dto.getBoolScore() * dto.getBoolNum();
         double sumScore = singleSumScore + multipleSumScore + boolSumScore;
-//          1.2 将试卷分数与标准分数进行比较
+
         if (sumScore != ExamConstant.STANDARD_EXAM_SCORE) {
             throw new BusinessException(ErrorCode.EXAM_SUM_SCORE_ERROR);
         }
-//        2. 保存试卷至数据库
 
+        Exam exam = new Exam();
+        BeanUtils.copyProperties(dto, exam);
+        baseMapper.insert(exam);
     }
 }
 
