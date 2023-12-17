@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.ijusthaveto.exam.mapper.BankMapper">
+
+    <resultMap id="BaseResultMap" type="me.ijusthaveto.exam.domain.Bank">
+            <id property="bankId" column="bankId" jdbcType="INTEGER"/>
+            <result property="subjectId" column="subjectId" jdbcType="INTEGER"/>
+            <result property="bankTitle" column="bankTitle" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        bankId,subjectId,bankTitle
+    </sql>
+</mapper>
