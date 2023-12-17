@@ -35,6 +35,8 @@ public class User implements Serializable {
      */
     private Integer roleId;
 
+    private Integer classId;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

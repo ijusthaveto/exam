@@ -9,9 +9,10 @@
             <result property="username" column="username" jdbcType="VARCHAR"/>
             <result property="passwordHash" column="passwordHash" jdbcType="VARCHAR"/>
             <result property="roleId" column="roleId" jdbcType="INTEGER"/>
+            <result property="classId" column="classId" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        userId,username,passwordHash,roleId
+        userId,username,passwordHash,roleId,classId
     </sql>
 </mapper>
