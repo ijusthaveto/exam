@@ -1,8 +1,10 @@
 package me.ijusthaveto.exam.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.ijusthaveto.exam.common.BaseResponse;
 import me.ijusthaveto.exam.common.ResultUtils;
+import me.ijusthaveto.exam.domain.Bank;
 import me.ijusthaveto.exam.domain.dto.BankDto;
 import me.ijusthaveto.exam.service.BankService;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 
 import static me.ijusthaveto.exam.constant.ResultConstant.IMPORT_BANK_SUCCESS;
 
@@ -35,6 +38,7 @@ public class BankController {
 
     /**
      * 题库分页查询
+     *
      * @param page
      * @param size
      * @param bankTitle
@@ -44,6 +48,17 @@ public class BankController {
     public BaseResponse<Page> page(Integer page, Integer size, String bankTitle) {
         Page<BankDto> resultPage = bankService.selectPage(page, size, bankTitle);
         return ResultUtils.success(resultPage);
+    }
+
+    /**
+     * 获取题库列表
+     * @param subjectId
+     * @return
+     */
+    @GetMapping("/list")
+    public BaseResponse<List<Bank>> list(@RequestParam("subjectId") Integer subjectId) {
+        List<Bank> list = bankService.selectAllList(subjectId);
+        return ResultUtils.success(list);
     }
 
 }

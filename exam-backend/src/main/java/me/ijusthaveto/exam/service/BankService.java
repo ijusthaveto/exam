@@ -7,6 +7,7 @@ import me.ijusthaveto.exam.domain.dto.BankDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
 * @author 修雯天
@@ -18,4 +19,6 @@ public interface BankService extends IService<Bank> {
     void processCsvFile(MultipartFile file, Integer subjectId, String bankTitle) throws IOException;
 
     Page<BankDto> selectPage(Integer page, Integer size, String bankTitle);
+
+    List<Bank> selectAllList(Integer subjectId);
 }

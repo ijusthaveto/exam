@@ -105,6 +105,14 @@ public class BankServiceImpl extends ServiceImpl<BankMapper, Bank>
         bankDtoPage.setRecords(bankDtoList);
         return bankDtoPage;
     }
+
+    @Override
+    public List<Bank> selectAllList(Integer subjectId) {
+        LambdaQueryWrapper<Bank> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(subjectId != null, Bank::getSubjectId, subjectId)
+                .select(Bank::getBankId, Bank::getBankTitle);
+        return baseMapper.selectList(wrapper);
+    }
 }
 
 
