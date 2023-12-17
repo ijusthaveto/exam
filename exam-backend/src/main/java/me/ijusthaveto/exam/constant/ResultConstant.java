@@ -8,5 +8,6 @@ public interface ResultConstant {
     String ADD_QUESTION_FAILED = "添加题目失败";
     String ADMIN_NOT_EXISTS = "管理员不存在";
     String ADD_EXAM_SUCCESS = "添加考试成功";
+    String ADD_SUBJECT_SUCCESS = "添加学科成功";
     String EXAM_SCORE_ERROR = "考试分值有误";
 }
