@@ -11,5 +11,7 @@ public interface ResultConstant {
     String ADD_SUBJECT_SUCCESS = "添加学科成功";
     String IMPORT_BANK_SUCCESS = "题库上传成功";
     String EXAM_SCORE_ERROR = "考试分值有误";
+    String REMOVE_BANK_SUCCESS = "删除题库成功";
     String FILE_ERROR = "文件错误";
+    String REMOVE_BANK_ERROR = "删除题库失败";
 }

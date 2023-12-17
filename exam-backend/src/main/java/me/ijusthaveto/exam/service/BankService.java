@@ -21,4 +21,7 @@ public interface BankService extends IService<Bank> {
     Page<BankDto> selectPage(Integer page, Integer size, String bankTitle);
 
     List<Bank> selectAllList(Integer subjectId);
+
+    void deleteWithQuestion(Integer bankId);
+
 }

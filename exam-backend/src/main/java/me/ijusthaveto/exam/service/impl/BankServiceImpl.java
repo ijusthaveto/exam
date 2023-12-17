@@ -25,7 +25,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static me.ijusthaveto.exam.common.ErrorCode.BANK_IMPORT_FILE_ERROR;
+import static me.ijusthaveto.exam.common.ErrorCode.*;
 import static me.ijusthaveto.exam.constant.QuestionConstant.*;
 
 /**
@@ -112,6 +112,14 @@ public class BankServiceImpl extends ServiceImpl<BankMapper, Bank>
         wrapper.eq(subjectId != null, Bank::getSubjectId, subjectId)
                 .select(Bank::getBankId, Bank::getBankTitle);
         return baseMapper.selectList(wrapper);
+    }
+
+    @Override
+    public void deleteWithQuestion(Integer bankId) {
+        int i = baseMapper.deleteById(bankId);
+        LambdaQueryWrapper<Question> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Question::getBankId, bankId);
+        questionService.remove(queryWrapper);
     }
 }
 

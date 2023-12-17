@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static me.ijusthaveto.exam.constant.ResultConstant.IMPORT_BANK_SUCCESS;
+import static me.ijusthaveto.exam.constant.ResultConstant.REMOVE_BANK_SUCCESS;
 
 /**
  * @author ijusthaveto
@@ -59,6 +60,17 @@ public class BankController {
     public BaseResponse<List<Bank>> list(@RequestParam("subjectId") Integer subjectId) {
         List<Bank> list = bankService.selectAllList(subjectId);
         return ResultUtils.success(list);
+    }
+
+    /**
+     * 删除题库并删除其相关的题目
+     * @param bankId
+     * @return
+     */
+    @DeleteMapping("/delete")
+    public BaseResponse<String> delete(@RequestParam("bankId") Integer bankId) {
+        bankService.deleteWithQuestion(bankId);
+        return ResultUtils.success(REMOVE_BANK_SUCCESS);
     }
 
 }

@@ -24,6 +24,7 @@ public enum ErrorCode {
     ADMIN_NOT_EXISTS(40109, ResultConstant.ADMIN_NOT_EXISTS, ""),
     EXAM_SUM_SCORE_ERROR(40110, ResultConstant.EXAM_SCORE_ERROR, ""),
     BANK_IMPORT_FILE_ERROR(40111, ResultConstant.FILE_ERROR, ""),
+    BANK_REMOVE_ERROR(40112, ResultConstant.REMOVE_BANK_ERROR, ""),
     SYSTEM_ERROR(50000, "系统内部异常", "");
 
     private final int code;
