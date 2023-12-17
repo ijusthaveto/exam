@@ -1,7 +1,9 @@
 package me.ijusthaveto.exam.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.ijusthaveto.exam.domain.Bank;
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.ijusthaveto.exam.domain.dto.BankDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -14,4 +16,6 @@ import java.io.IOException;
 public interface BankService extends IService<Bank> {
 
     void processCsvFile(MultipartFile file, Integer subjectId, String bankTitle) throws IOException;
+
+    Page<BankDto> selectPage(Integer page, Integer size, String bankTitle);
 }
