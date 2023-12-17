@@ -1,7 +1,9 @@
 package me.ijusthaveto.exam.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.ijusthaveto.exam.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.ijusthaveto.exam.domain.dto.StuDto;
 import me.ijusthaveto.exam.domain.dto.UserLoginDto;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
 
@@ -16,4 +18,5 @@ public interface UserService extends IService<User> {
 
     void login(UserLoginDto dto);
 
+    Page<StuDto> selectPage(Integer page, Integer size, String username);
 }
