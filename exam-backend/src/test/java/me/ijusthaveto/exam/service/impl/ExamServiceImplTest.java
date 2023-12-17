@@ -1,4 +1,5 @@
 package me.ijusthaveto.exam.service.impl;
+
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -72,6 +73,7 @@ class ExamServiceImplTest {
     void testHutoolJSONUtil() {
         TreeMap<Object, Object> examTime = new TreeMap<Object, Object>() {
             private static final long serialVersionUID = 1L;
+
             {
                 put("startTime", "2023-12-01 08:00:00");
                 put("endTime", "2023-12-01 10:00:00");
@@ -107,6 +109,47 @@ class ExamServiceImplTest {
         System.out.println(exam.toString());
         BeanUtils.copyProperties(dto, exam);
         System.out.println(exam.toString());
+    }
+
+    @Test
+    void testAddExam() {
+        TreeMap<Object, Object> examTime = new TreeMap<Object, Object>() {
+            private static final long serialVersionUID = 1L;
+
+            {
+                put("startTime", "2023-12-01 08:00:00");
+                put("endTime", "2023-12-01 10:00:00");
+            }
+        };
+
+        String examTimeJson = JSONUtil.toJsonStr(examTime);
+
+        ExamDto dto = new ExamDto();
+        dto.setClassId(RandomUtil.randomInt(10));
+        dto.setClassNo("Z094" + RandomUtil.randomInt(210, 220));
+        dto.setExamStartToEnd(examTimeJson);
+        dto.setExamPeopleNum(RandomUtil.randomInt(100));
+        dto.setExamId(RandomUtil.randomInt());
+        dto.setExamTitle("Exam" + RandomUtil.randomInt(10));
+
+        JSONObject examTimeObject = JSONUtil.parseObj(examTimeJson);
+        String startTime = examTimeObject.getStr("startTime");
+        String endTime = examTimeObject.getStr("endTime");
+
+        dto.setStartTime(DateUtil.parse(startTime));
+        dto.setEndTime(DateUtil.parse(endTime));
+        dto.setBankId(RandomUtil.randomInt());
+        dto.setLimitTime(RandomUtil.randomInt(20, 60));
+        dto.setSingleNum(30);
+        dto.setSingleScore(1.0);
+        dto.setMultipleNum(20);
+        dto.setMultipleScore(2.0);
+        dto.setBoolNum(30);
+        dto.setBoolScore(1.0);
+
+        Exam exam = new Exam();
+
+        examService.addExam(dto);
     }
 }
 

@@ -1,6 +1,7 @@
 package me.ijusthaveto.exam.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mysql.cj.util.StringUtils;
 import me.ijusthaveto.exam.common.BaseResponse;
@@ -34,7 +35,6 @@ public class QuestionController {
 
         return ResultUtils.success(questionService.page(page, wrapper));
     }
-
 
     /**
      * 添加题目
