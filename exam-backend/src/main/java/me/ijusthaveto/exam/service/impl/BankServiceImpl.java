@@ -33,8 +33,6 @@ public class BankServiceImpl extends ServiceImpl<BankMapper, Bank>
     @Resource
     private QuestionService questionService;
 
-    @Resource
-    private BankService bankService;
 
     @Override
     public void processCsvFile(MultipartFile file, Integer subjectId, String bankTitle){
@@ -46,7 +44,7 @@ public class BankServiceImpl extends ServiceImpl<BankMapper, Bank>
         LambdaQueryWrapper<Bank> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Bank::getBankTitle, bankTitle);
 
-        Bank one = bankService.getOne(wrapper);
+        Bank one = baseMapper.selectOne(wrapper);
         Integer bankId = one.getBankId();
 
         try {
