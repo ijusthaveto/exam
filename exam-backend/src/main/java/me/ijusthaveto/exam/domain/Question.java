@@ -45,6 +45,8 @@ public class Question implements Serializable {
      */
     private Object options;
 
+    private Integer bankId;
+
     /**
      *
      */

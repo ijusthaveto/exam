@@ -2,6 +2,9 @@ package me.ijusthaveto.exam.service;
 
 import me.ijusthaveto.exam.domain.Bank;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
 * @author 修雯天
@@ -10,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface BankService extends IService<Bank> {
 
+    void processCsvFile(MultipartFile file, Integer subjectId, String bankTitle) throws IOException;
 }

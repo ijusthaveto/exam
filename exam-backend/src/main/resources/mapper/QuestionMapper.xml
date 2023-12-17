@@ -11,13 +11,14 @@
             <result property="difficultyLevel" column="difficultyLevel" jdbcType="VARCHAR"/>
             <result property="questionContent" column="questionContent" jdbcType="VARCHAR"/>
             <result property="options" column="options" jdbcType="OTHER"/>
+            <result property="bankId" column="bankId" jdbcType="INTEGER"/>
             <result property="correctAnswer" column="correctAnswer" jdbcType="VARCHAR"/>
             <result property="score" column="score" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         questionId,subjectId,questionType,
-        difficultyLevel,questionContent,options,
+        difficultyLevel,questionContent,options, bankId,
         correctAnswer,score
     </sql>
 </mapper>

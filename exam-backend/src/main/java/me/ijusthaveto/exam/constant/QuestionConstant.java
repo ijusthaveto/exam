@@ -12,4 +12,12 @@ public interface QuestionConstant {
     String MEDIUM_LEVEL = "Medium";
     String EASY_LEVEL = "Easy";
     String HARD_LEVEL = "Hard";
+    String QUESTION_TYPE = "questionType";
+    String DIFFICULTY_LEVEL = "difficultyLevel";
+    String QUESTION_CONTENT = "questionContent";
+    String OPTIONS = "options";
+    String CORRECT_ANSWER = "correctAnswer";
+    String SCORE = "score";
+    String SUBJECT_ID = "subjectId";
+    String BANK_ID = "bankId";
 }

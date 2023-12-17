@@ -1,8 +1,17 @@
 package me.ijusthaveto.exam.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import me.ijusthaveto.exam.common.BaseResponse;
+import me.ijusthaveto.exam.common.ResultUtils;
+import me.ijusthaveto.exam.domain.Bank;
+import me.ijusthaveto.exam.service.BankService;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.annotation.Resource;
+
+import java.io.IOException;
+
+import static me.ijusthaveto.exam.constant.ResultConstant.IMPORT_BANK_SUCCESS;
 
 /**
  * @author ijusthaveto
@@ -12,5 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/bank")
 @CrossOrigin
 public class BankController {
+
+    @Resource
+    private BankService bankService;
+
+
+    @PostMapping("/upload")
+    public BaseResponse<String> upload(@RequestParam("file") MultipartFile file,
+                                       @RequestParam("subjectId") Integer subjectId,
+                                       @RequestParam("bankTitle") String bankTitle) throws IOException {
+        bankService.processCsvFile(file, subjectId, bankTitle);
+        return ResultUtils.success(IMPORT_BANK_SUCCESS);
+    }
 
 }
