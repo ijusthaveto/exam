@@ -4,16 +4,15 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import me.ijusthaveto.exam.common.ResultUtils;
 import me.ijusthaveto.exam.domain.Class;
 import me.ijusthaveto.exam.domain.User;
 import me.ijusthaveto.exam.domain.dto.StuDto;
 import me.ijusthaveto.exam.domain.dto.UserLoginDto;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
 import me.ijusthaveto.exam.exception.BusinessException;
+import me.ijusthaveto.exam.mapper.UserMapper;
 import me.ijusthaveto.exam.service.ClassService;
 import me.ijusthaveto.exam.service.UserService;
-import me.ijusthaveto.exam.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -83,12 +82,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     }
 
     @Override
-    public Page<StuDto> selectPage(Integer page, Integer size, String username) {
+    public Page<StuDto> selectPage(Integer page, Integer size, String userNo) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(username != null, User::getUsername, username)
+        wrapper.like(userNo != null, User::getUserNo, userNo)
                 .orderByAsc(User::getUserId)
                 .eq(User::getRoleId, DEFAULT_ROLE)
-                .orderByAsc(User::getUsername);
+                .orderByAsc(User::getUserNo);
         Page<User> userPage = new Page<>(page, size);
         this.page(userPage, wrapper);
 

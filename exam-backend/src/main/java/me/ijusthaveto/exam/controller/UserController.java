@@ -2,7 +2,6 @@ package me.ijusthaveto.exam.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.ijusthaveto.exam.common.BaseResponse;
 import me.ijusthaveto.exam.common.ResultUtils;
@@ -49,8 +48,8 @@ public class UserController {
      * @return
      */
     @GetMapping("/page")
-    public BaseResponse<Page> page(Integer page, Integer size, String username) {
-        Page<StuDto> stuDtoPage = userService.selectPage(page, size, username);
+    public BaseResponse<Page> page(Integer page, Integer size, String userNo) {
+        Page<StuDto> stuDtoPage = userService.selectPage(page, size, userNo);
         return ResultUtils.success(stuDtoPage);
     }
 }
