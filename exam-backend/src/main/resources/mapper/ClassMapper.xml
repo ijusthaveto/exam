@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.ijusthaveto.exam.mapper.ClassMapper">
+
+    <resultMap id="BaseResultMap" type="me.ijusthaveto.exam.domain.Class">
+            <id property="classId" column="classId" jdbcType="INTEGER"/>
+            <result property="classNo" column="classNo" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        classId,classNo
+    </sql>
+</mapper>
