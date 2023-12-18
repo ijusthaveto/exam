@@ -6,22 +6,14 @@
 
     <resultMap id="BaseResultMap" type="me.ijusthaveto.exam.domain.Task">
             <id property="taskId" column="taskId" jdbcType="INTEGER"/>
-            <result property="bankId" column="bankId" jdbcType="INTEGER"/>
-            <result property="taskName" column="taskName" jdbcType="VARCHAR"/>
-            <result property="taskTime" column="taskTime" jdbcType="TIMESTAMP"/>
-            <result property="limitTime" column="limitTime" jdbcType="INTEGER"/>
-            <result property="singleNum" column="singleNum" jdbcType="INTEGER"/>
-            <result property="multipleNum" column="multipleNum" jdbcType="INTEGER"/>
-            <result property="boolNum" column="boolNum" jdbcType="INTEGER"/>
-            <result property="singleScore" column="singleScore" jdbcType="DOUBLE"/>
-            <result property="multipleScore" column="multipleScore" jdbcType="DOUBLE"/>
-            <result property="boolScore" column="boolScore" jdbcType="DOUBLE"/>
+            <result property="userId" column="userId" jdbcType="INTEGER"/>
+            <result property="examId" column="examId" jdbcType="INTEGER"/>
+            <result property="score" column="score" jdbcType="DOUBLE"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        taskId,bankId,taskName,
-        taskTime,limitTime,singleNum,
-        multipleNum,boolNum,singleScore,
-        multipleScore,boolScore
+        taskId,userId,examId,
+        score,status
     </sql>
 </mapper>

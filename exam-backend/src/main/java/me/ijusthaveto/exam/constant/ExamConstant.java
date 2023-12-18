@@ -7,4 +7,7 @@ package me.ijusthaveto.exam.constant;
  */
 public interface ExamConstant {
     double STANDARD_EXAM_SCORE = 100.0;
+    Integer IS_START = 1;
+    Integer NOT_START = 0;
+    Double DEFAULT_SCORE = 0.0;
 }

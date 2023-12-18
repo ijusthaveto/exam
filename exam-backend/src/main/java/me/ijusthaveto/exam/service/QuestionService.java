@@ -2,6 +2,9 @@ package me.ijusthaveto.exam.service;
 
 import me.ijusthaveto.exam.domain.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.ijusthaveto.exam.domain.dto.QuestionDto;
+
+import java.util.List;
 
 /**
 * @author 修雯天
@@ -15,4 +18,17 @@ public interface QuestionService extends IService<Question> {
      * @param questionId
      */
     void deleteQuestion(Integer questionId);
+
+    /**
+     * 随机挑选题目
+     * @param bankId
+     * @param singleNum
+     * @param multipleNum
+     * @param boolNum
+     * @return
+     */
+    List<Question> pickQuestion(Integer bankId,
+                                   Integer singleNum,
+                                   Integer multipleNum,
+                                   Integer boolNum);
 }

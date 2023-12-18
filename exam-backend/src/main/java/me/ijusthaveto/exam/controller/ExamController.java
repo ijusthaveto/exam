@@ -7,11 +7,15 @@ import me.ijusthaveto.exam.constant.ResultConstant;
 import me.ijusthaveto.exam.domain.Exam;
 import me.ijusthaveto.exam.domain.Question;
 import me.ijusthaveto.exam.domain.dto.ExamDto;
+import me.ijusthaveto.exam.domain.dto.QuestionDto;
+import me.ijusthaveto.exam.domain.dto.TaskDto;
 import me.ijusthaveto.exam.service.ExamService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+
+import static me.ijusthaveto.exam.constant.ResultConstant.ADD_EXAM_SUCCESS;
 
 @Slf4j
 @CrossOrigin(origins = "*")
@@ -24,7 +28,7 @@ public class ExamController {
     @PostMapping("/add")
     public BaseResponse<String> addExam(@RequestBody ExamDto dto) {
         examService.addExam(dto);
-        return ResultUtils.success(ResultConstant.ADD_EXAM_SUCCESS);
+        return ResultUtils.success(ADD_EXAM_SUCCESS);
     }
 
     /**
@@ -47,5 +51,29 @@ public class ExamController {
         List<Question> questionList = examService.selectQuestionListByExamId(examId);
         return ResultUtils.success(questionList);
     }
+
+    /**
+     * 批量添加班级考试
+     * @param dto
+     * @return
+     */
+    @PostMapping("/addClassExam")
+    public BaseResponse<String> addClassExam(@RequestBody TaskDto dto) {
+        examService.addClassExam(dto);
+        return ResultUtils.success(ADD_EXAM_SUCCESS);
+    }
+
+    /**
+     * 开始考试
+     * @param examId
+     * @return
+     */
+    @GetMapping("/start/{taskId}")
+    public BaseResponse<List<QuestionDto>> startExam(@PathVariable("taskId") Integer taskId) {
+        List<QuestionDto> questionDtoList = examService.start(taskId);
+        return ResultUtils.success(questionDtoList);
+    }
+
+
 
 }

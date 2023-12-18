@@ -14,4 +14,8 @@ public interface ResultConstant {
     String REMOVE_BANK_SUCCESS = "删除题库成功";
     String FILE_ERROR = "文件错误";
     String REMOVE_BANK_ERROR = "删除题库失败";
+    String EXAM_NOT_START_ERROR = "考试还未开始";
+    String SINGLE_QUESTION_NUM_ERROR = "单选题数量不足";
+    String MULTIPLE_QUESTION_NUM_ERROR = "多选题数量不足";
+    String BOOL_QUESTION_NUM_ERROR = "判断题数量不足";
 }

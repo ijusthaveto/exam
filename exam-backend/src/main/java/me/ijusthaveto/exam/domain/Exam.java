@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 /**
@@ -29,11 +31,13 @@ public class Exam implements Serializable {
     /**
      *
      */
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
     private Date startTime;
 
     /**
      *
      */
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
     private Date endTime;
 
     /**

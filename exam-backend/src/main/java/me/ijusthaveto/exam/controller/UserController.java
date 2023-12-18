@@ -44,7 +44,7 @@ public class UserController {
      * 学生分页查询
      * @param page
      * @param size
-     * @param username
+     * @param userNo
      * @return
      */
     @GetMapping("/page")

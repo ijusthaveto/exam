@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useExamStore } from '@/stores/examStore';
+import httpInstance from '@/utils/http';
 
 const examList = ref([])
 const store = useExamStore()
@@ -17,6 +18,8 @@ const viewExam = (id) => {
     }
   })
 }
+
+
 
 onMounted(() => {
   store.selectExamListById()

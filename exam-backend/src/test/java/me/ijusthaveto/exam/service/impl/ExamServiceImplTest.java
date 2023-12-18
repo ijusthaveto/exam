@@ -1,6 +1,7 @@
 package me.ijusthaveto.exam.service.impl;
 
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -150,6 +151,13 @@ class ExamServiceImplTest {
         Exam exam = new Exam();
 
         examService.addExam(dto);
+    }
+
+    @Test
+    public void testCurrentDate() {
+        Date current = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println(sdf.format(current));
     }
 }
 
