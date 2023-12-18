@@ -4,16 +4,19 @@
         <p :id="'question' + (index + 1)">
           {{ index + 1 }}.{{ item.questionContent }}
         </p>
-        <el-radio-group>
-          <el-radio :label="2" v-for="index in JSON.parse(item.options)" :key="index">
-            {{ index }}.{{ JSON.parse(item.options)[index] }}
-          </el-radio>
-        </el-radio-group>
+        <p>
+          <el-radio-group>
+            <el-radio :label="2" v-for="(value, key) in JSON.parse(item.options)" :key="key">
+              {{ key }}. {{ value }}
+            </el-radio> 
+          </el-radio-group>
+        </p>
       </div>
     </div>
   </template>
   
   <script setup>
   const props = defineProps(["data"]);
+  console.log(JSON.parse(props.data[1].options).A)
   </script>
   

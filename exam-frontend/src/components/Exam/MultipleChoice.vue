@@ -5,8 +5,8 @@
           {{ index + 1 }}.{{ item.questionContent }}
         </p>
         <el-checkbox-group>
-          <el-checkbox :label="index" v-for="index in JSON.parse(item.options)" :key="index">
-            {{ index }}.{{ JSON.parse(item.options)[index] }}
+          <el-checkbox :label="index" v-for="(value, key) in JSON.parse(item.options)" :key="key">
+            {{ key }}. {{ value }}
           </el-checkbox>
         </el-checkbox-group>
       </div>
