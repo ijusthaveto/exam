@@ -14,6 +14,7 @@ import me.ijusthaveto.exam.domain.dto.TaskDto;
 import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.mapper.*;
 import me.ijusthaveto.exam.service.ExamService;
+import me.ijusthaveto.exam.service.QuestionService;
 import me.ijusthaveto.exam.service.TaskService;
 import me.ijusthaveto.exam.utils.OwnUtil;
 import org.springframework.beans.BeanUtils;
@@ -55,6 +56,9 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
 
     @Resource
     private TaskService taskService;
+
+    @Resource
+    private QuestionService questionService;
 
     @Override
     public List<Exam> selectExamListById(Integer loginId) {
@@ -122,16 +126,21 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
     }
 
     @Override
-    public List<QuestionDto> start(Integer taskId) {
+    public List<Question> start(Integer taskId) {
         Task task = taskService.getById(taskId);
         Exam exam = baseMapper.selectById(task.getExamId());
         if (!exam.getStartTime().before(OwnUtil.getCurrentDate())) {
             throw new BusinessException(EXAM_NOT_START_ERROR);
         }
 
+        List<Question> questionList = questionService.pickQuestion(taskId,
+                exam.getSingleNum(),
+                exam.getMultipleNum(),
+                exam.getBoolNum());
 
-
-        return null;
+        task.setStatus(IS_START);
+        taskService.updateById(task);
+        return questionList;
     }
 }
 

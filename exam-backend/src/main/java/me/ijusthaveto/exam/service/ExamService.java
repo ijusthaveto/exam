@@ -24,5 +24,5 @@ public interface ExamService extends IService<Exam> {
 
     void addClassExam(TaskDto dto);
 
-    List<QuestionDto> start(Integer taskId);
+    List<Question> start(Integer taskId);
 }

@@ -1,15 +1,11 @@
 package me.ijusthaveto.exam.service;
 
 import me.ijusthaveto.exam.domain.Question;
-import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class QuestionServiceTest {
