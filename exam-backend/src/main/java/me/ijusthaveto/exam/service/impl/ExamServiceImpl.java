@@ -1,5 +1,6 @@
 package me.ijusthaveto.exam.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.ijusthaveto.exam.common.ErrorCode;
@@ -126,20 +127,30 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
     }
 
     @Override
-    public List<Question> start(Integer taskId) {
-        Task task = taskService.getById(taskId);
-        Exam exam = baseMapper.selectById(task.getExamId());
+    public List<Question> start(Integer examId) {
+        Integer userId = (Integer) StpUtil.getSession().get("loginId");
+        Task task = new Task();
+        task.setStatus(NOT_START);
+        task.setScore(DEFAULT_SCORE);
+        task.setExamId(examId);
+        task.setUserId(userId);
+        taskService.save(task);
+
+        LambdaQueryWrapper<Task> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Task::getExamId, examId).eq(Task::getUserId, userId);
+        Task result = taskService.getOne(wrapper);
+        Exam exam = baseMapper.selectById(result.getExamId());
         if (!exam.getStartTime().before(OwnUtil.getCurrentDate())) {
             throw new BusinessException(EXAM_NOT_START_ERROR);
         }
 
-        List<Question> questionList = questionService.pickQuestion(taskId,
+        List<Question> questionList = questionService.pickQuestion(exam.getBankId(),
                 exam.getSingleNum(),
                 exam.getMultipleNum(),
                 exam.getBoolNum());
 
-        task.setStatus(IS_START);
-        taskService.updateById(task);
+        result.setStatus(IS_START);
+        taskService.updateById(result);
         return questionList;
     }
 }

@@ -75,17 +75,17 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
                 .eq(Question::getQuestionType, QuestionConstant.TRUE_OR_FALSE);
         List<Question> boolList = baseMapper.selectList(boolWrapper);
 
-        if (singleList.size() < singleNum) {
-            throw new BusinessException(SINGLE_QUESTION_NUM_ERROR);
-        }
-
-        if (multipleList.size() < multipleNum) {
-            throw new BusinessException(MULTIPLE_QUESTION_NUM_ERROR);
-        }
-
-        if (boolList.size() < boolNum) {
-            throw new BusinessException(BOOL_QUESTION_NUM_ERROR);
-        }
+//        if (singleList.size() < singleNum) {
+//            throw new BusinessException(SINGLE_QUESTION_NUM_ERROR);
+//        }
+//
+//        if (multipleList.size() < multipleNum) {
+//            throw new BusinessException(MULTIPLE_QUESTION_NUM_ERROR);
+//        }
+//
+//        if (boolList.size() < boolNum) {
+//            throw new BusinessException(BOOL_QUESTION_NUM_ERROR);
+//        }
 
         singleList = OwnUtil.selectRandomQuestions(singleList, singleNum);
         multipleList = OwnUtil.selectRandomQuestions(multipleList, multipleNum);

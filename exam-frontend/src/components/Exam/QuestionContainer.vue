@@ -16,7 +16,8 @@ const examId = ref(route.query.examId);
 const questionList = ref([]);
 
 const getQuestionListByExamId = async () => {
-  const res = await httpInstance.get(`/exam/${examId.value}`);
+  const res = await httpInstance.get(`/exam/start/${examId.value}`);
+  console.log(res)
   questionList.value = res.data;
 };
 

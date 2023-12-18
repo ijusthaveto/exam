@@ -79,6 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }
 
         StpUtil.login(user.getUserId());
+        StpUtil.getSession().set("loginId", user.getUserId());
     }
 
     @Override
