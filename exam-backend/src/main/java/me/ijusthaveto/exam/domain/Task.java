@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -27,9 +28,9 @@ public class Task implements Serializable {
     private Double score;
     private Integer status;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private DateTime updateTime;
+    private Date updateTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private DateTime createTime;
+    private Date createTime;
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

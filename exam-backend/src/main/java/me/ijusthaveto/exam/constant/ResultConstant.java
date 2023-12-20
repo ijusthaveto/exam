@@ -23,4 +23,5 @@ public interface ResultConstant {
     String USER_IMPORT_ERROR = "导入学生信息失败";
     String AUTO_SAVE_TASK_SUCCESS = "试卷自动保存成功";
     String AUTO_UPDATE_TASK_ERROR = "自动保存试卷失败";
+    String ENTER_EXAM_ERROR = "进入考试失败";
 }

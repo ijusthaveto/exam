@@ -1,6 +1,7 @@
 package me.ijusthaveto.exam.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -26,8 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static me.ijusthaveto.exam.common.ErrorCode.AUTO_UPDATE_TASK_ERROR;
-import static me.ijusthaveto.exam.common.ErrorCode.EXAM_NOT_START_ERROR;
+import static me.ijusthaveto.exam.common.ErrorCode.*;
 import static me.ijusthaveto.exam.constant.ExamConstant.*;
 import static me.ijusthaveto.exam.constant.RoleConstant.DEFAULT_ROLE;
 
@@ -131,9 +131,15 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         task.setScore(DEFAULT_SCORE);
         task.setExamId(examId);
         task.setUserId(userId);
+        task.setCreateTime(OwnUtil.getCurrentDate());
+        task.setUpdateTime(OwnUtil.getCurrentDate());
         taskService.save(task);
         LambdaQueryWrapper<Task> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Task::getExamId, examId).eq(Task::getUserId, userId);
+        long count = taskService.count(wrapper);
+        if (count != 1) {
+            throw new BusinessException(ENTER_EXAM_ERROR);
+        }
         Task result = taskService.getOne(wrapper);
         Exam exam = baseMapper.selectById(result.getExamId());
         if (!exam.getStartTime().before(OwnUtil.getCurrentDate())) {
