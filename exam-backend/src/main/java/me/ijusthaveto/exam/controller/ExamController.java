@@ -6,6 +6,7 @@ import me.ijusthaveto.exam.common.ResultUtils;
 import me.ijusthaveto.exam.constant.ResultConstant;
 import me.ijusthaveto.exam.domain.Exam;
 import me.ijusthaveto.exam.domain.Question;
+import me.ijusthaveto.exam.domain.Task;
 import me.ijusthaveto.exam.domain.dto.ExamDto;
 import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.domain.dto.TaskDto;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 import static me.ijusthaveto.exam.constant.ResultConstant.ADD_EXAM_SUCCESS;
+import static me.ijusthaveto.exam.constant.ResultConstant.AUTO_SAVE_TASK_SUCCESS;
 
 @Slf4j
 @CrossOrigin(origins = "*")
@@ -33,6 +35,7 @@ public class ExamController {
 
     /**
      * 获取学生所有考试列表
+     *
      * @return
      */
     @GetMapping("/list/{loginId}")
@@ -43,6 +46,7 @@ public class ExamController {
 
     /**
      * 根据考试ID查询题目列表
+     *
      * @param examId
      * @return
      */
@@ -54,6 +58,7 @@ public class ExamController {
 
     /**
      * 批量添加班级考试
+     *
      * @param dto
      * @return
      */
@@ -65,6 +70,7 @@ public class ExamController {
 
     /**
      * 开始考试
+     *
      * @param examId
      * @return
      */
@@ -75,6 +81,10 @@ public class ExamController {
         return ResultUtils.success(questionDtoList);
     }
 
-
+    @PostMapping("/autoSave")
+    public BaseResponse<String> autoSaveTask(@RequestBody Task task) {
+        examService.saveTask(task);
+        return ResultUtils.success(AUTO_SAVE_TASK_SUCCESS);
+    }
 
 }

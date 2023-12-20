@@ -9,11 +9,13 @@
             <result property="userId" column="userId" jdbcType="INTEGER"/>
             <result property="examId" column="examId" jdbcType="INTEGER"/>
             <result property="score" column="score" jdbcType="DOUBLE"/>
+            <result property="createTime" column="createTime" jdbcType="DATE"/>
+            <result property="updateTime" column="updateTime" jdbcType="DATE"/>
             <result property="status" column="status" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         taskId,userId,examId,
-        score,status
+        score,status,createTime,updateTime
     </sql>
 </mapper>

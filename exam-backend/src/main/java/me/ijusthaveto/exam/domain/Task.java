@@ -1,11 +1,16 @@
 package me.ijusthaveto.exam.domain;
 
+import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * @author ijusthaveto
@@ -21,6 +26,10 @@ public class Task implements Serializable {
     private Integer examId;
     private Double score;
     private Integer status;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private DateTime updateTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private DateTime createTime;
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

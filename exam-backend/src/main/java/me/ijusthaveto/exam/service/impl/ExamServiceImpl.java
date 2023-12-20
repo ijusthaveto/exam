@@ -2,6 +2,7 @@ package me.ijusthaveto.exam.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.ijusthaveto.exam.common.ErrorCode;
 import me.ijusthaveto.exam.constant.ExamConstant;
@@ -10,7 +11,6 @@ import me.ijusthaveto.exam.domain.Question;
 import me.ijusthaveto.exam.domain.Task;
 import me.ijusthaveto.exam.domain.User;
 import me.ijusthaveto.exam.domain.dto.ExamDto;
-import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.domain.dto.TaskDto;
 import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.mapper.*;
@@ -20,16 +20,13 @@ import me.ijusthaveto.exam.service.TaskService;
 import me.ijusthaveto.exam.utils.OwnUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static me.ijusthaveto.exam.common.ErrorCode.AUTO_UPDATE_TASK_ERROR;
 import static me.ijusthaveto.exam.common.ErrorCode.EXAM_NOT_START_ERROR;
 import static me.ijusthaveto.exam.constant.ExamConstant.*;
 import static me.ijusthaveto.exam.constant.RoleConstant.DEFAULT_ROLE;
@@ -150,6 +147,14 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         result.setStatus(IS_START);
         taskService.updateById(result);
         return questionList;
+    }
+
+    @Override
+    public void saveTask(Task task) {
+        boolean success = taskService.updateById(task);
+        if (!success) {
+            throw new BusinessException(AUTO_UPDATE_TASK_ERROR);
+        }
     }
 }
 

@@ -3,8 +3,8 @@ package me.ijusthaveto.exam.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.ijusthaveto.exam.domain.Exam;
 import me.ijusthaveto.exam.domain.Question;
+import me.ijusthaveto.exam.domain.Task;
 import me.ijusthaveto.exam.domain.dto.ExamDto;
-import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.domain.dto.TaskDto;
 
 import java.util.List;
@@ -25,4 +25,6 @@ public interface ExamService extends IService<Exam> {
     void addClassExam(TaskDto dto);
 
     List<Question> start(Integer examId);
+
+    void saveTask(Task task);
 }

@@ -21,4 +21,6 @@ public interface ResultConstant {
     String IMPORT_USER_SUCCESS = "学生信息上传成功";
     String CREATE_CLASS_ERROR = "创建新班级失败";
     String USER_IMPORT_ERROR = "导入学生信息失败";
+    String AUTO_SAVE_TASK_SUCCESS = "试卷自动保存成功";
+    String AUTO_UPDATE_TASK_ERROR = "自动保存试卷失败";
 }

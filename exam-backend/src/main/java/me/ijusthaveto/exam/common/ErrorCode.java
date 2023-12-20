@@ -31,6 +31,7 @@ public enum ErrorCode {
     BOOL_QUESTION_NUM_ERROR(40116, ResultConstant.BOOL_QUESTION_NUM_ERROR, ""),
     CREATE_CLASS_ERROR(40117, ResultConstant.CREATE_CLASS_ERROR, ""),
     USER_IMPORT_ERROR(40118, ResultConstant.USER_IMPORT_ERROR, ""),
+    AUTO_UPDATE_TASK_ERROR(40119, ResultConstant.AUTO_UPDATE_TASK_ERROR, ""),
     SYSTEM_ERROR(50000, "系统内部异常", "");
 
     private final int code;
