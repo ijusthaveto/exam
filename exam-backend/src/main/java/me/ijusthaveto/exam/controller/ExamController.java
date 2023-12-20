@@ -7,6 +7,7 @@ import me.ijusthaveto.exam.constant.ResultConstant;
 import me.ijusthaveto.exam.domain.Exam;
 import me.ijusthaveto.exam.domain.Question;
 import me.ijusthaveto.exam.domain.Task;
+import me.ijusthaveto.exam.domain.dto.CalcDto;
 import me.ijusthaveto.exam.domain.dto.ExamDto;
 import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.domain.dto.TaskDto;
@@ -31,6 +32,12 @@ public class ExamController {
     public BaseResponse<String> addExam(@RequestBody ExamDto dto) {
         examService.addExam(dto);
         return ResultUtils.success(ADD_EXAM_SUCCESS);
+    }
+
+    @GetMapping("/info/{examId}")
+    public BaseResponse<Exam> selectExamInfo(@PathVariable("examId") Integer examId) {
+        Exam byId = examService.getById(examId);
+        return ResultUtils.success(byId);
     }
 
     /**
@@ -83,6 +90,13 @@ public class ExamController {
     @PostMapping("/autoSave")
     public BaseResponse<String> autoSaveTask(@RequestBody Task task) {
         examService.saveTask(task);
+        return ResultUtils.success(AUTO_SAVE_TASK_SUCCESS);
+    }
+
+    @PostMapping("/auto")
+    public BaseResponse<String> auto(@RequestBody CalcDto dto) {
+        log.info("dto:\t", dto);
+        examService.auto(dto.getSingle(), dto.getMultiple(), dto.getJudge(), dto.getExamId());
         return ResultUtils.success(AUTO_SAVE_TASK_SUCCESS);
     }
 }

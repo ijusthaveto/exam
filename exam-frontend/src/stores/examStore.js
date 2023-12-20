@@ -5,6 +5,7 @@ export const useExamStore = defineStore('exam', {
   state: () => ({
     examList: [],
     examId: null,
+    limitTime: null,
     questionList: [],
     singleAnswer: [],
     mutipleAnswer: [],

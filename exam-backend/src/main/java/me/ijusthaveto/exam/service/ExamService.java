@@ -28,4 +28,6 @@ public interface ExamService extends IService<Exam> {
     List<QuestionDto> start(Integer examId);
 
     void saveTask(Task task);
+
+    void auto(List<QuestionDto> single, List<QuestionDto> multiple, List<QuestionDto> judge, Integer examId);
 }

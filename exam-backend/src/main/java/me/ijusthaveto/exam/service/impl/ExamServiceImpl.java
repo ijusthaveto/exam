@@ -168,6 +168,42 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
             throw new BusinessException(AUTO_UPDATE_TASK_ERROR);
         }
     }
+
+    @Override
+    public void auto(List<QuestionDto> single, List<QuestionDto> multiple, List<QuestionDto> judge, Integer examId) {
+        Exam exam = baseMapper.selectById(examId);
+        Double singleScore = exam.getSingleScore();
+        Double multipleScore = exam.getMultipleScore();
+        Double judgeScore = exam.getBoolScore();
+        Integer loginId = (Integer) StpUtil.getSession().get("loginId");
+
+//        1. 检查单选题分数
+        Double totalScore = 0.0;
+        for (QuestionDto question : single) {
+            if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
+                totalScore += singleScore;
+            }
+        }
+//        2. 检查多选题分数
+        for (QuestionDto question : multiple) {
+            if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
+                totalScore += multipleScore;
+            }
+        }
+//        3. 检查判断题分数
+        for (QuestionDto question : judge) {
+            if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
+                totalScore += judgeScore;
+            }
+        }
+//        4. 计算总分，存储到task
+        LambdaQueryWrapper<Task> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Task::getExamId, examId).eq(Task::getUserId, loginId);
+        Task one = taskService.getOne(queryWrapper);
+        one.setScore(totalScore);
+        one.setUpdateTime(OwnUtil.getCurrentDate());
+        taskService.updateById(one);
+    }
 }
 
 

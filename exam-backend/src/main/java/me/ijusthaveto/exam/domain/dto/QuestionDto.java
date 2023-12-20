@@ -11,5 +11,5 @@ import java.util.List;
  */
 @Data
 public class QuestionDto extends Question {
-    private List<String> userAnswer;
+    private String userAnswer;
 }

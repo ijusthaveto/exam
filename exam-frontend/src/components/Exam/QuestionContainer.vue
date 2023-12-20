@@ -10,10 +10,13 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import httpInstance from '@/utils/http.js';
+import { useExamStore } from '@/stores/examStore';
 
 const route = useRoute();
 const examId = ref(route.query.examId);
 const questionList = ref([]);
+const store = useExamStore()
+store.examId = examId.value
 
 const getQuestionListByExamId = async () => {
   const res = await httpInstance.get(`/exam/start/${examId.value}`);
