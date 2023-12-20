@@ -6,6 +6,7 @@ import me.ijusthaveto.exam.domain.User;
 import me.ijusthaveto.exam.domain.dto.StuDto;
 import me.ijusthaveto.exam.domain.dto.UserLoginDto;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
 * @author 修雯天
@@ -19,4 +20,6 @@ public interface UserService extends IService<User> {
     void login(UserLoginDto dto);
 
     Page<StuDto> selectPage(Integer page, Integer size, String userNo);
+
+    void processCsvFile(MultipartFile file, String classNo);
 }

@@ -18,4 +18,7 @@ public interface ResultConstant {
     String SINGLE_QUESTION_NUM_ERROR = "单选题数量不足";
     String MULTIPLE_QUESTION_NUM_ERROR = "多选题数量不足";
     String BOOL_QUESTION_NUM_ERROR = "判断题数量不足";
+    String IMPORT_USER_SUCCESS = "学生信息上传成功";
+    String CREATE_CLASS_ERROR = "创建新班级失败";
+    String USER_IMPORT_ERROR = "导入学生信息失败";
 }

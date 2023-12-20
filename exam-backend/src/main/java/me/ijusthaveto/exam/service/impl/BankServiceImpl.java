@@ -72,7 +72,6 @@ public class BankServiceImpl extends ServiceImpl<BankMapper, Bank>
                 question.setScore(Integer.parseInt(record.get(SCORE)));
                 question.setSubjectId(subjectId);
                 question.setBankId(bankId);
-
                 questionService.save(question);
             }
         } catch (Exception e) {

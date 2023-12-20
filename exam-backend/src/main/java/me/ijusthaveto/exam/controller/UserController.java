@@ -11,8 +11,11 @@ import me.ijusthaveto.exam.domain.dto.UserLoginDto;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
 import me.ijusthaveto.exam.service.UserService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+
+import static me.ijusthaveto.exam.constant.ResultConstant.IMPORT_USER_SUCCESS;
 
 @CrossOrigin
 @RestController
@@ -52,4 +55,19 @@ public class UserController {
         Page<StuDto> stuDtoPage = userService.selectPage(page, size, userNo);
         return ResultUtils.success(stuDtoPage);
     }
+
+    /**
+     * 批量导入学生信息
+     * @param file
+     * @param classNo
+     * @return
+     */
+    @PostMapping("/upload")
+    public BaseResponse<String> upload(@RequestParam("file") MultipartFile file,
+                                       @RequestParam("classNo") String classNo) {
+        userService.processCsvFile(file, classNo);
+        return ResultUtils.success(IMPORT_USER_SUCCESS);
+    }
+
+
 }

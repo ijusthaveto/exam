@@ -135,7 +135,6 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         task.setExamId(examId);
         task.setUserId(userId);
         taskService.save(task);
-
         LambdaQueryWrapper<Task> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Task::getExamId, examId).eq(Task::getUserId, userId);
         Task result = taskService.getOne(wrapper);
@@ -143,7 +142,6 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         if (!exam.getStartTime().before(OwnUtil.getCurrentDate())) {
             throw new BusinessException(EXAM_NOT_START_ERROR);
         }
-
         List<Question> questionList = questionService.pickQuestion(exam.getBankId(),
                 exam.getSingleNum(),
                 exam.getMultipleNum(),

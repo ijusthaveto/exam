@@ -13,15 +13,23 @@ import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.mapper.UserMapper;
 import me.ijusthaveto.exam.service.ClassService;
 import me.ijusthaveto.exam.service.UserService;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static me.ijusthaveto.exam.common.ErrorCode.*;
 import static me.ijusthaveto.exam.constant.RoleConstant.DEFAULT_ROLE;
+import static me.ijusthaveto.exam.constant.UserConstant.*;
 
 /**
 * @author 修雯天
@@ -108,6 +116,37 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         }).collect(Collectors.toList());
         stuDtoPage.setRecords(collect);
         return stuDtoPage;
+    }
+
+    @Override
+    public void processCsvFile(MultipartFile file, String classNo) {
+        Class newClass = new Class();
+        newClass.setClassNo(classNo);
+        classService.save(newClass);
+
+        LambdaQueryWrapper<Class> classWrapper = new LambdaQueryWrapper<>();
+        Class one = classService.getOne(classWrapper);
+        if (Objects.isNull(one)) {
+            throw new BusinessException(CREATE_CLASS_ERROR);
+        }
+        Integer classId = one.getClassId();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            CSVParser records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(reader);
+
+            for (CSVRecord record : records) {
+                User user = new User();
+                user.setUsername(record.get(USERNAME));
+                user.setUserNo(record.get(USER_NO));
+                user.setPasswordHash(DEFAULT_PWD);
+                user.setRoleId(DEFAULT_ROLE);
+                user.setClassId(classId);
+
+                this.save(user);
+            }
+        } catch (Exception e) {
+            throw new BusinessException(USER_IMPORT_ERROR);
+        }
     }
 }
 
