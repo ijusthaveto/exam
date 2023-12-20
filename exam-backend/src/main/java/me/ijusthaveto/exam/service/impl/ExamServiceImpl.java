@@ -12,6 +12,7 @@ import me.ijusthaveto.exam.domain.Question;
 import me.ijusthaveto.exam.domain.Task;
 import me.ijusthaveto.exam.domain.User;
 import me.ijusthaveto.exam.domain.dto.ExamDto;
+import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.domain.dto.TaskDto;
 import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.mapper.*;
@@ -124,7 +125,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
     }
 
     @Override
-    public List<Question> start(Integer examId) {
+    public List<QuestionDto> start(Integer examId) {
         Integer userId = (Integer) StpUtil.getSession().get("loginId");
         Task task = new Task();
         task.setStatus(NOT_START);
@@ -149,10 +150,15 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
                 exam.getSingleNum(),
                 exam.getMultipleNum(),
                 exam.getBoolNum());
-
+        List<QuestionDto> resultList = new ArrayList<>();
+        for (Question question : questionList) {
+            QuestionDto questionDto = new QuestionDto();
+            BeanUtils.copyProperties(question, questionDto);
+            resultList.add(questionDto);
+        }
         result.setStatus(IS_START);
         taskService.updateById(result);
-        return questionList;
+        return resultList;
     }
 
     @Override

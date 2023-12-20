@@ -75,9 +75,8 @@ public class ExamController {
      * @return
      */
     @GetMapping("/start/{examId}")
-    public BaseResponse<List<Question>> startExam(@PathVariable("examId") Integer examId) {
-        List<Question> questionDtoList = examService.start(examId);
-        log.info("questionList: ");
+    public BaseResponse<List<QuestionDto>> startExam(@PathVariable("examId") Integer examId) {
+        List<QuestionDto> questionDtoList = examService.start(examId);
         return ResultUtils.success(questionDtoList);
     }
 

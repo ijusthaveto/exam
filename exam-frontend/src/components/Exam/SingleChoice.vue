@@ -5,7 +5,7 @@
         {{ index + 1 }}. {{ item.questionContent }}
       </p>
       <p>
-        <el-radio-group>
+        <el-radio-group v-model="item.userAnswer" @change="updateUserAnswer">
           <div>
             <el-radio class="radio-item" :label="key" v-for="(value, key) in JSON.parse(item.options)" :key="key">{{ key }}. {{ value }}</el-radio>
           </div>
@@ -16,7 +16,12 @@
 </template>
   
 <script setup>
+
 const props = defineProps(["data"]);
+
+const updateUserAnswer = () => {
+  console.log(props.data)
+}
 </script>
 
 <style scoped>

@@ -9,6 +9,5 @@ import me.ijusthaveto.exam.domain.Question;
  */
 @Data
 public class QuestionDto extends Question {
-    private String bankTitle;
-    private String questionAnswerList;
+    private String userAnswer;
 }
