@@ -16,11 +16,13 @@
 </template>
   
 <script setup>
+import { useExamStore } from "@/stores/examStore";
 
 const props = defineProps(["data"]);
+const store = useExamStore()
 
 const updateUserAnswer = () => {
-  console.log(props.data)
+  store.singleAnswer = props.data
 }
 </script>
 

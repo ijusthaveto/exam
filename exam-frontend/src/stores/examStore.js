@@ -6,6 +6,9 @@ export const useExamStore = defineStore('exam', {
     examList: [],
     examId: null,
     questionList: [],
+    singleAnswer: [],
+    mutipleAnswer: [],
+    judgeAnswer: []
   }),
 
   actions: {
