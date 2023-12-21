@@ -5,6 +5,7 @@ import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import me.ijusthaveto.exam.common.ErrorCode;
 import me.ijusthaveto.exam.constant.ExamConstant;
 import me.ijusthaveto.exam.domain.Exam;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static me.ijusthaveto.exam.common.ErrorCode.*;
@@ -38,6 +40,7 @@ import static me.ijusthaveto.exam.constant.RoleConstant.DEFAULT_ROLE;
 * @createDate 2023-12-11 12:42:32
 */
 @Service
+@Slf4j
 public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
     implements ExamService{
 
@@ -176,27 +179,32 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         Double multipleScore = exam.getMultipleScore();
         Double judgeScore = exam.getBoolScore();
         Integer loginId = (Integer) StpUtil.getSession().get("loginId");
-
-//        1. 检查单选题分数
         Double totalScore = 0.0;
-        for (QuestionDto question : single) {
-            if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
-                totalScore += singleScore;
+
+        if (!Objects.isNull(single)) {
+            for (QuestionDto question : single) {
+                if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
+                    totalScore += singleScore;
+                }
             }
         }
-//        2. 检查多选题分数
-        for (QuestionDto question : multiple) {
-            if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
-                totalScore += multipleScore;
+
+        if (!Objects.isNull(multiple)) {
+            for (QuestionDto question : multiple) {
+                if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
+                    totalScore += multipleScore;
+                }
             }
         }
-//        3. 检查判断题分数
-        for (QuestionDto question : judge) {
-            if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
-                totalScore += judgeScore;
+
+        if (!Objects.isNull(judge)) {
+            for (QuestionDto question : judge) {
+                if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
+                    totalScore += judgeScore;
+                }
             }
         }
-//        4. 计算总分，存储到task
+
         LambdaQueryWrapper<Task> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Task::getExamId, examId).eq(Task::getUserId, loginId);
         Task one = taskService.getOne(queryWrapper);

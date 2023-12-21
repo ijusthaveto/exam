@@ -5,7 +5,6 @@ const httpInstance = axios.create({
     timeout: 5000
 })
 
-// axios请求拦截器
 httpInstance.interceptors.request.use(
     (config) => {
         const tokenName = localStorage.getItem('tokenName')
@@ -18,7 +17,6 @@ httpInstance.interceptors.request.use(
     (e) => Promise.reject(e)
 )
 
-// axios响应式拦截器
 httpInstance.interceptors.response.use(
     (res) => res.data,
     (e) => {

@@ -8,7 +8,7 @@
       </div>
     </el-affix>
 
-    <h1 class="exam-title" style="text-align: center">Exam 1</h1>
+    <h1 class="exam-title" style="text-align: center">{{ examTitle }}</h1>
 
     <h2 class="paper-title">0x01. Single Choice</h2>
     <SingleChoice :data="props.singleList" />
@@ -25,7 +25,7 @@
 </template>
   
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 import SingleChoice from "@/components/Exam/SingleChoice.vue";
 import MultipleChoice from "@/components/Exam/MultipleChoice.vue";
 import TrueOrFalse from "@/components/Exam/TrueOrFalse.vue";
@@ -35,15 +35,17 @@ import httpInstance from '@/utils/http';
 const props = defineProps(["singleList", "mutipleList", "boolList"]);
 const store = useExamStore()
 const examId = store.examId
-const limitTime = store.limitTime
-const examTime = ref(Date.now() + 1000 * 60 * limitTime)
+const examTitle = ref('')
+const examTime = ref(Date.now() * 1000 * store.limitTime)
 
 const getExamInfoByExamId = async () => {
   const res = await httpInstance.get(`/exam/info/${examId}`)
   store.limitTime = res.data.limitTime
+  examTitle.value = res.data.examTitle
+  examTime.value = Date.now() + 1000 * 60 * store.limitTime
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   getExamInfoByExamId()
 })
 
@@ -57,8 +59,6 @@ const handleSubmit = async () => {
     judge: Array.from(store.judgeAnswer),
     examId: store.examId
   })
-    
-
   console.log(res)
 }
 
@@ -75,6 +75,7 @@ const handleSubmit = async () => {
   font-size: 50px;
   display: inline-block;
   border-bottom: 5px solid white;
+  margin-bottom: 15px;
   line-height: 1.5em;
 }
 
