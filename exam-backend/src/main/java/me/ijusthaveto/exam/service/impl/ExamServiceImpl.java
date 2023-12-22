@@ -1,9 +1,9 @@
 package me.ijusthaveto.exam.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import me.ijusthaveto.exam.common.ErrorCode;
@@ -15,6 +15,7 @@ import me.ijusthaveto.exam.domain.User;
 import me.ijusthaveto.exam.domain.dto.ExamDto;
 import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.domain.dto.TaskDto;
+import me.ijusthaveto.exam.domain.dto.TestDto;
 import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.mapper.*;
 import me.ijusthaveto.exam.service.ExamService;
@@ -35,14 +36,14 @@ import static me.ijusthaveto.exam.constant.ExamConstant.*;
 import static me.ijusthaveto.exam.constant.RoleConstant.DEFAULT_ROLE;
 
 /**
-* @author 修雯天
-* @description 针对表【exam】的数据库操作Service实现
-* @createDate 2023-12-11 12:42:32
-*/
+ * @author 修雯天
+ * @description 针对表【exam】的数据库操作Service实现
+ * @createDate 2023-12-11 12:42:32
+ */
 @Service
 @Slf4j
 public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
-    implements ExamService{
+        implements ExamService {
 
     @Resource
     private StudentexamMapper studentexamMapper;
@@ -181,27 +182,28 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         Integer loginId = (Integer) StpUtil.getSession().get("loginId");
         Double totalScore = 0.0;
 
-        if (!Objects.isNull(single)) {
-            for (QuestionDto question : single) {
-                if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
-                    totalScore += singleScore;
-                }
+
+        for (QuestionDto question : single) {
+            String userAnswer = question.getUserAnswer();
+            String correctAnswer = question.getCorrectAnswer();
+            if (StrUtil.isNotBlank(userAnswer)) {
+                totalScore = userAnswer.equals(correctAnswer) ? totalScore + singleScore : totalScore;
             }
         }
 
-        if (!Objects.isNull(multiple)) {
-            for (QuestionDto question : multiple) {
-                if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
-                    totalScore += multipleScore;
-                }
+        for (QuestionDto question : multiple) {
+            String userAnswer = question.getUserAnswer();
+            String correctAnswer = question.getCorrectAnswer();
+            if (StrUtil.isNotBlank(userAnswer)) {
+                totalScore = userAnswer.equals(correctAnswer) ? totalScore + multipleScore : totalScore;
             }
         }
 
-        if (!Objects.isNull(judge)) {
-            for (QuestionDto question : judge) {
-                if (question.getUserAnswer().equals(question.getCorrectAnswer())) {
-                    totalScore += judgeScore;
-                }
+        for (QuestionDto question : judge) {
+            String userAnswer = question.getUserAnswer();
+            String correctAnswer = question.getCorrectAnswer();
+            if (StrUtil.isNotBlank(userAnswer)) {
+                totalScore = userAnswer.equals(correctAnswer) ? totalScore + judgeScore : totalScore;
             }
         }
 
@@ -211,6 +213,12 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         one.setScore(totalScore);
         one.setUpdateTime(OwnUtil.getCurrentDate());
         taskService.updateById(one);
+    }
+
+    @Override
+    public void addTest(TestDto dto) {
+        Exam exam = new Exam();
+        exam.setExamTitle(dto.getExamTitle());
     }
 }
 
