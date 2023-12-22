@@ -36,4 +36,13 @@ public class OwnUtil {
 
         return selectedObjects;
     }
+
+    /**
+     * 将时间字符串转换为日期
+     * @param dateString
+     * @return
+     */
+    public static Date dateString2Date(String dateString) {
+
+    }
 }

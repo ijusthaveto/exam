@@ -23,46 +23,55 @@
 
   </div>
 </template>
-  
+
 <script setup>
-import { onBeforeMount, ref } from 'vue'
-import SingleChoice from "@/components/Exam/SingleChoice.vue";
-import MultipleChoice from "@/components/Exam/MultipleChoice.vue";
-import TrueOrFalse from "@/components/Exam/TrueOrFalse.vue";
+import { onBeforeMount, ref, onUnmounted } from 'vue';
+import { ElMessage } from 'element-plus';
+import { useRouter } from 'vue-router';
 import { useExamStore } from '@/stores/examStore';
 import httpInstance from '@/utils/http';
 
 const props = defineProps(["singleList", "mutipleList", "boolList"]);
-const store = useExamStore()
-const examId = store.examId
-const examTitle = ref('')
-const examTime = ref(Date.now() * 1000 * store.limitTime)
+const store = useExamStore();
+const router = useRouter();
+const examId = store.examId;
+const examTitle = ref('');
+const examTime = ref(Date.now() + 1000 * store.limitTime);
 
 const getExamInfoByExamId = async () => {
-  const res = await httpInstance.get(`/exam/info/${examId}`)
-  store.limitTime = res.data.limitTime
-  examTitle.value = res.data.examTitle
-  examTime.value = Date.now() + 1000 * 60 * store.limitTime
-}
-
-onBeforeMount(() => {
-  getExamInfoByExamId()
-})
+  const res = await httpInstance.get(`/exam/info/${examId}`);
+  store.limitTime = res.data.limitTime;
+  examTitle.value = res.data.examTitle;
+  examTime.value = Date.now() + 1000 * 60 * store.limitTime;
+};
 
 const handleSubmit = async () => {
-  console.log('single', store.singleAnswer)
-  console.log('multiple', store.mutipleAnswer)
-  console.log('judge', store.judgeAnswer)
   const res = await httpInstance.post('/exam/auto', {
     single: Array.from(store.singleAnswer),
     multiple: Array.from(store.mutipleAnswer),
     judge: Array.from(store.judgeAnswer),
-    examId: store.examId
-  })
-  console.log(res)
-}
+    examId: store.examId,
+  });
+  if (res.code === 0) {
+    ElMessage.success('The test paper is saved successfully.');
+  } else {
+    router.push('/login');
+    ElMessage.error(res.message);
+  }
+};
 
+onBeforeMount(() => {
+  getExamInfoByExamId();
+
+  const timer = setInterval(handleSubmit, 60 * 1000);
+
+  onUnmounted(() => {
+    clearInterval(timer);
+  });
+});
 </script>
+
+
 
 <style scoped>
 .exam-title {
@@ -100,4 +109,3 @@ const handleSubmit = async () => {
   --el-statistic-content-font-size: 30px;
 }
 </style>
-  

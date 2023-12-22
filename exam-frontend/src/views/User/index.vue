@@ -1,24 +1,29 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useExamStore } from '@/stores/examStore';
-import httpInstance from '@/utils/http';
+import {onMounted} from 'vue'
+import {useRouter} from 'vue-router'
+import {useExamStore} from '@/stores/examStore';
+import httpInstance from '@/utils/http.js'
+import {ElMessage} from 'element-plus'
 
-const examList = ref([])
 const store = useExamStore()
 
 const router = useRouter()
 
-const viewExam = (id) => {
-  console.log(id)
-  router.push({
-    path: '/exam',
-    query: {
-      examId: id
-    }
-  })
-}
+const viewExam = async (examId) => {
+  console.log(`Current Exam ID is ${examId}.`)
+  const res = await httpInstance.get(`/exam/status/${examId}`)
+  if (res.code === 40121) {
+    ElMessage.error('Please contact the teacher for re-entry.')
+  } else {
+    router.push({
+      path: '/exam',
+      query: {
+        examId: examId
+      }
+    })
+  }
 
+}
 
 
 onMounted(() => {
@@ -29,21 +34,21 @@ onMounted(() => {
   <div class="main-container">
     <el-container>
       <el-header class="nav">
-        <el-row :gutter="20" type="flex" class="row-bg" align="middle">
+        <el-row :gutter="20" align="middle" class="row-bg" type="flex">
           <el-col :span="20">
-            <router-link to="/" style="color: white; font-weight: bold">Online Exam</router-link>
+            <router-link style="color: white; font-weight: bold" to="/">Online Exam</router-link>
           </el-col>
           <el-col :span="2">
-            <router-link to="/admin" style="color: white">Your profile</router-link>
+            <router-link style="color: white" to="/admin">Your profile</router-link>
           </el-col>
           <el-col :span="2">
-            <router-link to="/admin" style="color: white">Sign out</router-link>
+            <router-link style="color: white" to="/admin">Sign out</router-link>
           </el-col>
         </el-row>
       </el-header>
       <el-main>
         <el-row :gutter="20">
-          <el-col :span="5" v-for="item in store.examList" :key="item.examId">
+          <el-col v-for="item in store.examList" :key="item.examId" :span="5">
             <div class="exam-container">
               <div class="exam-title exam-item">{{ item.examTitle }}</div>
               <div class="exam-start-time exam-item">{{ item.startTime }}</div>

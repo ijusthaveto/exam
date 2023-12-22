@@ -19,6 +19,7 @@ export const useAdminStore = defineStore('admin', {
                     this.tokenName = res.data.tokenName
                     this.tokenValue = res.data.tokenValue
                     this.loginId = res.data.loginId
+                    this.loginRole = 'ADMIN_ROLE'
                     return { success: true, message: 'Login successful' }
                 } else {
                     return { success: false, message: res.message || 'Login failed' };

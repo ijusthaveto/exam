@@ -125,6 +125,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         classService.save(newClass);
 
         LambdaQueryWrapper<Class> classWrapper = new LambdaQueryWrapper<>();
+        classWrapper.eq(Class::getClassNo, classNo);
         Class one = classService.getOne(classWrapper);
         if (Objects.isNull(one)) {
             throw new BusinessException(CREATE_CLASS_ERROR);

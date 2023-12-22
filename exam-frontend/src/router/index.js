@@ -61,7 +61,7 @@ const router = createRouter({
             },
             {
               path: '',
-              component: StudentManagementVue
+              component: StudentManagementVue,
             }
           ]
         },
@@ -127,5 +127,7 @@ const router = createRouter({
     }
   ]
 })
+
+
 
 export default router

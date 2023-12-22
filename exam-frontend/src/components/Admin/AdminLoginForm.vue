@@ -23,6 +23,7 @@
 import { ref } from 'vue';
 import { useAdminStore } from '@/stores/adminStore'
 import router from '@/router/index';
+import {ElMessage} from 'element-plus'
 
 const secretCode = ref('');
 const adminStore = useAdminStore();
@@ -32,8 +33,9 @@ const handleLogin = async () => {
 
   if (success) {
     router.push('/admin');
+    ElMessage.success('Administrator successfully logged in.')
   } else {
-    console.error(message);
+    ElMessage.error(message);
   }
 };
 </script>

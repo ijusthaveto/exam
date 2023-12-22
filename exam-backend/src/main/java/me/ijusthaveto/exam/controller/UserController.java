@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
+import java.util.List;
+
 import static me.ijusthaveto.exam.constant.ResultConstant.IMPORT_USER_SUCCESS;
 
 @CrossOrigin
@@ -29,6 +31,11 @@ public class UserController {
 
         userService.register(dto);
         return ResultUtils.success(null);
+    }
+
+    @GetMapping("/list")
+    public BaseResponse<List<User>> list() {
+        return ResultUtils.success(userService.list());
     }
 
     @PostMapping("/login")

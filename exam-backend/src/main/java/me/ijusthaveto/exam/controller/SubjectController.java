@@ -40,6 +40,7 @@ public class SubjectController {
      * 查询学科列表
      * @return
      */
+    @GetMapping("/list")
     public BaseResponse<List<Subject>> list() {
         LambdaQueryWrapper<Subject> wrapper = new LambdaQueryWrapper<>();
         wrapper.select(Subject::getSubjectId, Subject::getSubjectName);

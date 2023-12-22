@@ -45,9 +45,10 @@
 import { ref } from 'vue';
 import router from '@/router/index';
 import httpInstance from '@/utils/http';
+import {ElMessage} from 'element-plus';
 
-const username = ref('');
-const password = ref('');
+const username = ref('张三');
+const password = ref('pwd123');
 
 const login = async () => {
   const res = await httpInstance.post('/user/login', {
@@ -59,6 +60,9 @@ const login = async () => {
     localStorage.setItem('tokenName', res.data.tokenName)
     localStorage.setItem('tokenValue', res.data.tokenValue)
     localStorage.setItem('loginId', res.data.loginId)
+    localStorage.setItem('loginRole', 'STUDENT_ROLE')
+    ElMessage.success('Login Success.')
+    console.log('Login Success.')
     router.push('/user');
   }
 };

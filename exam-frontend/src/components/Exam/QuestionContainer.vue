@@ -5,14 +5,17 @@
     </el-scrollbar>
   </el-main>
 </template>
-  
+
 <script setup>
 import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import httpInstance from '@/utils/http.js';
 import { useExamStore } from '@/stores/examStore';
+import {ElMessage} from 'element-plus'
+import { useRouter} from 'vue-router'
 
 const route = useRoute();
+const router = useRouter()
 const examId = ref(route.query.examId);
 const questionList = ref([]);
 const store = useExamStore()
@@ -20,8 +23,12 @@ store.examId = examId.value
 
 const getQuestionListByExamId = async () => {
   const res = await httpInstance.get(`/exam/start/${examId.value}`);
-  console.log(res)
-  questionList.value = res.data;
+  if (res.code === 0) {
+    questionList.value = res.data;
+  } else {
+    router.push('/login')
+    ElMessage.error(res.message)
+  }
 };
 
 const singleList = computed(() => {
@@ -40,4 +47,3 @@ onMounted(() => {
   getQuestionListByExamId();
 });
 </script>
-  

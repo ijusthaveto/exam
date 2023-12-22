@@ -7,6 +7,7 @@ import me.ijusthaveto.exam.domain.Task;
 import me.ijusthaveto.exam.domain.dto.ExamDto;
 import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.domain.dto.TaskDto;
+import me.ijusthaveto.exam.domain.dto.TestDto;
 
 import java.util.List;
 
@@ -30,4 +31,7 @@ public interface ExamService extends IService<Exam> {
     void saveTask(Task task);
 
     void auto(List<QuestionDto> single, List<QuestionDto> multiple, List<QuestionDto> judge, Integer examId);
+
+    void addTest(TestDto dto);
+
 }
