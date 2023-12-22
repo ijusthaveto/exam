@@ -6,10 +6,7 @@ import me.ijusthaveto.exam.exception.BusinessException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static me.ijusthaveto.exam.common.ErrorCode.PARSE_STRING_DATE_ERROR;
 
@@ -30,16 +27,12 @@ public class OwnUtil {
      */
     public static List<Question> selectRandomQuestions(List<Question> originalList, int count) {
         count = Math.min(count, originalList.size());
-        ArrayList<Question> selectedObjects = new ArrayList<>();
-        Random random = new Random();
 
-        for (int i = 0; i < count; ++i) {
-            int randomIdx = random.nextInt(originalList.size());
-            selectedObjects.add(originalList.get(randomIdx));
-            originalList.remove(randomIdx);
-        }
+        ArrayList<Question> shuffledList = new ArrayList<>(originalList);
 
-        return selectedObjects;
+        Collections.shuffle(shuffledList);
+
+        return shuffledList.subList(0, count);
     }
 
     /**
