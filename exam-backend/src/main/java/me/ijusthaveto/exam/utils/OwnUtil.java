@@ -2,12 +2,16 @@ package me.ijusthaveto.exam.utils;
 
 import cn.hutool.core.date.DateUtil;
 import me.ijusthaveto.exam.domain.Question;
+import me.ijusthaveto.exam.exception.BusinessException;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import static me.ijusthaveto.exam.common.ErrorCode.PARSE_STRING_DATE_ERROR;
 
 public class OwnUtil {
 
@@ -19,6 +23,7 @@ public class OwnUtil {
 
     /**
      * 从List从随机挑选指定count数量的Object，并将其封装到新的List
+     *
      * @param originalList
      * @param count
      * @return
@@ -39,10 +44,16 @@ public class OwnUtil {
 
     /**
      * 将时间字符串转换为日期
+     *
      * @param dateString
      * @return
      */
     public static Date dateString2Date(String dateString) {
-
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            throw new BusinessException(PARSE_STRING_DATE_ERROR);
+        }
     }
 }

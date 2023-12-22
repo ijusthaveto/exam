@@ -26,4 +26,5 @@ public interface ResultConstant {
     String ENTER_EXAM_ERROR = "进入考试失败";
     String REPEAT_EXAM_ERROR = "二次进入考试警告";
     String EXAM_STATUS_NORMAL = "考试状态正常";
+    String PARSE_STRING_DATE_ERROR = "字符串解析为日期类型失败";
 }
