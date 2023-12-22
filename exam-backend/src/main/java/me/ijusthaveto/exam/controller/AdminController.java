@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+/**
+ * @author ijusthaveto
+ * @create 2023-12-22
+ */
 @Slf4j
 @CrossOrigin
 @RestController
