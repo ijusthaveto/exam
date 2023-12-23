@@ -24,4 +24,7 @@ public interface BankService extends IService<Bank> {
 
     void deleteWithQuestion(Integer bankId);
 
+    BankDto getBankDtoById(Integer bankId);
+
+    void modifyBankInfo(BankDto dto);
 }

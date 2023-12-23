@@ -125,6 +125,48 @@ public class BankServiceImpl extends ServiceImpl<BankMapper, Bank>
         queryWrapper.eq(Question::getBankId, bankId);
         questionService.remove(queryWrapper);
     }
+
+    @Override
+    public BankDto getBankDtoById(Integer bankId) {
+        Bank bank = baseMapper.selectById(bankId);
+        BankDto bankDto = new BankDto();
+        BeanUtils.copyProperties(bank, bankDto);
+        Subject subject = subjectService.getById(bank.getSubjectId());
+
+        bankDto.setSubjectName(subject.getSubjectName());
+        bankDto.setSubjectId(subject.getSubjectId());
+        bankDto.setSingleNum(questionService.selectQuestionNum(bankId, SINGLE_CHOICE));
+        bankDto.setMultipleNum(questionService.selectQuestionNum(bankId, MULTIPLE_CHOICE));
+        bankDto.setJudgeNum(questionService.selectQuestionNum(bankId, TRUE_OR_FALSE));
+
+        return bankDto;
+    }
+
+    @Override
+    public void modifyBankInfo(BankDto dto) {
+        Bank bank = new Bank();
+        BeanUtils.copyProperties(dto, bank);
+        String subjectName = dto.getSubjectName();
+
+        LambdaQueryWrapper<Subject> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Subject::getSubjectName, subjectName);
+        long count = subjectService.count(queryWrapper);
+        if (count == 1) {
+            Subject one = subjectService.getOne(queryWrapper);
+            bank.setSubjectId(one.getSubjectId());
+        } else if (count == 0) {
+            Subject newSubject = new Subject();
+            newSubject.setSubjectName(subjectName);
+            subjectService.save(newSubject);
+            Subject one = subjectService.getOne(queryWrapper);
+            bank.setSubjectId(one.getSubjectId());
+        }
+
+        int result = baseMapper.updateById(bank);
+        if (result != 1) {
+            throw new BusinessException(MODIFY_BANK_INFO_ERROR);
+        }
+    }
 }
 
 

@@ -1,9 +1,9 @@
 <template>
   <div class='center-container'>
     <el-table :data="filterTableData" style="width: 100%">
-      <el-table-column label="UserNo" prop="userNo" />
+      <el-table-column label="User No" prop="userNo" />
       <el-table-column label="Username" prop="username" />
-      <el-table-column label="ClassNo" prop="classNo" />
+      <el-table-column label="Class No" prop="classNo" />
       <el-table-column label="Password" prop="passwordHash" />
       <el-table-column align="right">
         <template #header>
@@ -45,10 +45,10 @@
           label-width="100px"
           style="max-width: 460px"
       >
-        <el-form-item label="ClassNo">
+        <el-form-item label="Class No">
           <el-input v-model="formLabelAlign.classNo" />
         </el-form-item>
-        <el-form-item label="UserNo">
+        <el-form-item label="User No">
           <el-input v-model="formLabelAlign.userNo" />
         </el-form-item>
         <el-form-item label="Username">
@@ -130,7 +130,7 @@ const handleChangeUserInfo = async () => {
   if (res.code === 0) {
     centerDialogVisible.value = false
     ElMessage.success('Modified student information successfully.')
-    getUserList()
+    await getUserList()
   } else {
     ElMessage.error('Failed to modify student information.')
   }
@@ -142,7 +142,7 @@ const handleDelete = async (index, row) => {
   const res = await httpInstance.delete(`/user/remove/${userId}`)
   if (res.code === 0) {
     ElMessage.success('Succeeded in deleting the user.')
-    getUserList()
+    await getUserList()
   } else {
     ElMessage.error(res.message)
   }

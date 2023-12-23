@@ -31,4 +31,6 @@ public interface ResultConstant {
     String REMOVE_USER_ERROR = "删除用户失败";
     String MODIFY_USER_INFO_SUCCESS = "修改用户信息成功";
     String MODIFY_USER_INFO_ERROR = "修改用户信息失败";
+    String MODIFY_BANK_INFO_SUCCESS = "修改题库信息成功";
+    String MODIFY_BANK_INFO_ERROR = "修改题库信息失败";
 }
