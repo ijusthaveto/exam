@@ -155,8 +155,8 @@ const handleEdit = async (index, row) => {
 }
 
 const handleChangeUserInfo = async () => {
-  const res = await httpInstance.put(`/question/single`, {
-    questionId: formLabelAlign.questionContent,
+  const res = await httpInstance.put(`/question`, {
+    questionId: formLabelAlign.questionId,
     subjectId: formLabelAlign.subjectId,
     questionType: formLabelAlign.questionType,
     difficultyLevel: formLabelAlign.difficultyLevel,
@@ -170,10 +170,10 @@ const handleChangeUserInfo = async () => {
   })
   if (res.code === 0) {
     centerDialogVisible.value = false
-    ElMessage.success('Modified student information successfully.')
+    ElMessage.success('Modified Question information successfully.')
     await getSingleQuestionList()
   } else {
-    ElMessage.error('Failed to modify student information.')
+    ElMessage.error('Failed to modify Question information.')
   }
 }
 
