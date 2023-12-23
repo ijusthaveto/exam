@@ -9,13 +9,18 @@ import me.ijusthaveto.exam.common.ErrorCode;
 import me.ijusthaveto.exam.common.ResultUtils;
 import me.ijusthaveto.exam.constant.ResultConstant;
 import me.ijusthaveto.exam.domain.Question;
+import me.ijusthaveto.exam.domain.dto.BankDto;
 import me.ijusthaveto.exam.domain.dto.QuestionDetail;
+import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.domain.dto.QuestionPageDto;
 import me.ijusthaveto.exam.service.ExamquestionService;
 import me.ijusthaveto.exam.service.QuestionService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+
+import static me.ijusthaveto.exam.constant.ResultConstant.MODIFY_BANK_INFO_SUCCESS;
+import static me.ijusthaveto.exam.constant.ResultConstant.MODIFY_QUESTION_INFO_SUCCESS;
 
 @CrossOrigin
 @RestController
@@ -52,6 +57,12 @@ public class QuestionController {
             return ResultUtils.success(ResultConstant.ADD_QUESTION_SUCCESS);
         }
         return ResultUtils.error(ErrorCode.QUESTION_ADD_ERROR);
+    }
+
+    @PutMapping
+    public BaseResponse<String> modifyQuestionInfo(@RequestBody QuestionDetail dto) {
+        questionService.modifyQuestionInfo(dto);
+        return ResultUtils.success(MODIFY_QUESTION_INFO_SUCCESS);
     }
 
     /**

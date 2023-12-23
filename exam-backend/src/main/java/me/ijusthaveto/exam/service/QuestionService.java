@@ -5,6 +5,7 @@ import me.ijusthaveto.exam.domain.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.ijusthaveto.exam.domain.dto.QuestionDetail;
 import me.ijusthaveto.exam.domain.dto.QuestionDto;
+import me.ijusthaveto.exam.domain.dto.QuestionPageDto;
 
 import java.util.List;
 
@@ -44,4 +45,6 @@ public interface QuestionService extends IService<Question> {
     Page<QuestionDetail> selectPage(int page, int size, String type);
 
     QuestionDetail getQuestionDetailById(Integer questionId);
+
+    void modifyQuestionInfo(QuestionDetail dto);
 }

@@ -5,18 +5,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.ijusthaveto.exam.common.ErrorCode;
 import me.ijusthaveto.exam.constant.QuestionConstant;
-import me.ijusthaveto.exam.constant.ResultConstant;
 import me.ijusthaveto.exam.domain.Bank;
 import me.ijusthaveto.exam.domain.Examquestion;
 import me.ijusthaveto.exam.domain.Question;
 import me.ijusthaveto.exam.domain.Subject;
 import me.ijusthaveto.exam.domain.dto.QuestionDetail;
-import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.mapper.BankMapper;
 import me.ijusthaveto.exam.mapper.ExamquestionMapper;
-import me.ijusthaveto.exam.service.BankService;
-import me.ijusthaveto.exam.service.ExamquestionService;
 import me.ijusthaveto.exam.service.QuestionService;
 import me.ijusthaveto.exam.mapper.QuestionMapper;
 import me.ijusthaveto.exam.service.SubjectService;
@@ -25,7 +21,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -143,6 +138,55 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     public QuestionDetail getQuestionDetailById(Integer questionId) {
         Question question = baseMapper.selectById(questionId);
         return enhanceQuestion(question);
+    }
+
+    @Override
+    public void modifyQuestionInfo(QuestionDetail dto) {
+        Question question = new Question();
+        BeanUtils.copyProperties(dto, question);
+
+        String subjectName = dto.getSubjectName();
+        String bankTitle = dto.getBankTitle();
+
+        updateSubjectId(question, subjectName);
+        updateBankId(question, bankTitle);
+
+        int result = baseMapper.updateById(question);
+        if (result != 1) {
+            throw new BusinessException(MODIFY_QUESTION_INFO_ERROR);
+        }
+    }
+
+    private void updateBankId(Question question, String bankTitle) {
+        LambdaQueryWrapper<Bank> bw = new LambdaQueryWrapper<>();
+        bw.eq(Bank::getBankTitle, bankTitle);
+        long count = bankMapper.selectCount(bw);
+        if (count == 1) {
+            Bank bank = bankMapper.selectOne(bw);
+            question.setBankId(bank.getBankId());
+        } else if (count == 0) {
+            Bank bank = new Bank    ();
+            bank.setBankTitle(bankTitle);
+            bankMapper.insert(bank);
+            Bank one = bankMapper.selectOne(bw);
+            question.setBankId(one.getBankId());
+        }
+    }
+
+    private void updateSubjectId(Question question, String subjectName) {
+        LambdaQueryWrapper<Subject> subjectLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        subjectLambdaQueryWrapper.eq(Subject::getSubjectName, subjectName);
+        long count = subjectService.count(subjectLambdaQueryWrapper);
+        if (count == 1) {
+            Subject subject = subjectService.getOne(subjectLambdaQueryWrapper);
+            question.setSubjectId(subject.getSubjectId());
+        } else if (count == 0) {
+            Subject subject = new Subject();
+            subject.setSubjectName(subjectName);
+            subjectService.save(subject);
+            Subject one = subjectService.getOne(subjectLambdaQueryWrapper);
+            question.setSubjectId(one.getSubjectId());
+        }
     }
 
     private QuestionDetail enhanceQuestion(Question question) {

@@ -73,6 +73,9 @@
         <el-form-item label="Subject">
           <el-input v-model="formLabelAlign.subjectName" />
         </el-form-item>
+        <el-form-item label="Bank">
+          <el-input v-model="formLabelAlign.bankTitle" />
+        </el-form-item>
         <el-form-item label="Option">
           <el-input v-model="formLabelAlign.options" />
         </el-form-item>

@@ -39,6 +39,7 @@ public enum ErrorCode {
     REMOVE_USER_ERROR(40123, ResultConstant.REMOVE_USER_ERROR, ""),
     MODIFY_USER_INFO_ERROR(40124, ResultConstant.MODIFY_USER_INFO_ERROR, ""),
     MODIFY_BANK_INFO_ERROR(40125, ResultConstant.MODIFY_BANK_INFO_ERROR, ""),
+    MODIFY_QUESTION_INFO_ERROR(40126, ResultConstant.MODIFY_QUESTION_INFO_ERROR, ""),
     SYSTEM_ERROR(50000, "系统内部异常", "");
 
     private final int code;
