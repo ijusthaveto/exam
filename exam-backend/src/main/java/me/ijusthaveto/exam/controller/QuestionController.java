@@ -24,7 +24,7 @@ public class QuestionController {
     @Resource
     private QuestionService questionService;
 
-    @GetMapping("/{questionId}")
+    @GetMapping("/info/{questionId}")
     public BaseResponse<QuestionDetail> getQuestionDetailById(@PathVariable Integer questionId) {
         return ResultUtils.success(questionService.getQuestionDetailById(questionId));
     }

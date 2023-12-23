@@ -134,7 +134,7 @@ const handleChangeBankInfo = async () => {
 const handleDelete = async (index, row) => {
   const bankId = row.bankId
   console.log(bankId)
-  const res = await httpInstance.delete(`/bank/remove/${bankId}`)
+  const res = await httpInstance.delete(`/bank/delete/${bankId}`)
   if (res.code === 0) {
     ElMessage.success('Succeeded in deleting the user.')
     await getBankList()
