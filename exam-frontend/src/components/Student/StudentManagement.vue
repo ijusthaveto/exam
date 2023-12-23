@@ -117,6 +117,25 @@ const handleEdit = async (index, row) => {
   centerDialogVisible.value = true
 }
 
+const handleChangeUserInfo = async () => {
+  const res = await httpInstance.put(`/user`, {
+    classId: formLabelAlign.classId,
+    classNo: formLabelAlign.classNo,
+    passwordHash: formLabelAlign.passwordHash,
+    roleId: formLabelAlign.roleId,
+    userId: formLabelAlign.userId,
+    userNo: formLabelAlign.userNo,
+    username: formLabelAlign.username
+  })
+  if (res.code === 0) {
+    centerDialogVisible.value = false
+    ElMessage.success('Modified student information successfully.')
+    getUserList()
+  } else {
+    ElMessage.error('Failed to modify student information.')
+  }
+}
+
 const handleDelete = async (index, row) => {
   const userId = row.userId
   console.log(userId)
