@@ -1,6 +1,6 @@
 <template>
   <div class='center-container'>
-    <el-table :data="filterTableData" style="width: 100%" >
+    <el-table :data="filterTableData" style="width: 100%" height='672px'>
       <el-table-column label='Question' width='600px'>
         <template #default='scope'>
           <el-popover effect='light' trigger='hover' placement='top' width='auto'>
