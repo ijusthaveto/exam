@@ -7,54 +7,144 @@
       <el-table-column label="Password" prop="passwordHash" />
       <el-table-column align="right">
         <template #header>
-          <el-input v-model="search" size="small" placeholder="Type to search" />
+          <el-input v-model="search" placeholder="Type to search" size="small" />
         </template>
         <template #default="scope">
           <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
-            >Edit</el-button
+          >Edit
+          </el-button
           >
           <el-button
-            size="small"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)"
-            >Delete</el-button
+              size="small"
+              type="primary"
+              @click="handleDelete(scope.$index, scope.row)"
+          >Delete
+          </el-button
           >
         </template>
       </el-table-column>
     </el-table>
   </div>
+  <el-pagination
+      :page-size='pageObject.size'
+      :total='pageObject.total'
+      layout="prev, pager, next"
+      @size-change='handleSizeChange'
+      @current-change='handleCurrentChange'
+  />
+  <el-dialog
+      v-model="centerDialogVisible"
+      align-center
+      title="Modify Student Information"
+      width="30%"
+  >
+    <div>
+      <el-form
+          :label-position="'right'"
+          :model="formLabelAlign"
+          label-width="100px"
+          style="max-width: 460px"
+      >
+        <el-form-item label="ClassNo">
+          <el-input v-model="formLabelAlign.classNo" />
+        </el-form-item>
+        <el-form-item label="UserNo">
+          <el-input v-model="formLabelAlign.userNo" />
+        </el-form-item>
+        <el-form-item label="Username">
+          <el-input v-model="formLabelAlign.username" />
+        </el-form-item>
+        <el-form-item label="Password">
+          <el-input v-model="formLabelAlign.passwordHash" />
+        </el-form-item>
+      </el-form>
+    </div>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="centerDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="handleChangeUserInfo">
+          Confirm
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
-import {computed, onMounted, ref} from 'vue'
+import {computed, onMounted, reactive, ref} from 'vue'
 import httpInstance from '@/utils/http.js'
+import {ElMessage} from "element-plus";
 
+const centerDialogVisible = ref(false)
 const tableData = ref([])
 const search = ref('')
+const pageObject = reactive({
+  total: 0,
+  size: 0,
+  current: 0,
+})
+const formLabelAlign = reactive({
+  classId: null,
+  classNo: null,
+  passwordHash: null,
+  roleId: null,
+  userId: null,
+  userNo: null,
+  username: null
+})
 
 const filterTableData = computed(() =>
-  tableData.value.filter(
-    (data) =>
-      !search.value ||
-      data.username.toLowerCase().includes(search.value.toLowerCase())
-  )
+    tableData.value.filter(
+        (data) =>
+            !search.value ||
+            data.username.toLowerCase().includes(search.value.toLowerCase())
+    )
 )
 
 const page = ref(1)
-const size = ref(16)
+const size = ref(15)
 
-const handleEdit = (index, row) => {
-  console.log(index, row)
+const handleEdit = async (index, row) => {
+  const userId = row.userId
+  const res = await httpInstance.get(`/user/${userId}`)
+  formLabelAlign.classId = res.data.classId
+  formLabelAlign.classNo = res.data.classNo
+  formLabelAlign.passwordHash = res.data.passwordHash
+  formLabelAlign.roleId = res.data.roleId
+  formLabelAlign.userId = res.data.userId
+  formLabelAlign.userNo = res.data.userNo
+  formLabelAlign.username = res.data.username
+  centerDialogVisible.value = true
 }
 
-const handleDelete = (index, row) => {
-  console.log(index, row)
+const handleDelete = async (index, row) => {
+  const userId = row.userId
+  console.log(userId)
+  const res = await httpInstance.delete(`/user/remove/${userId}`)
+  if (res.code === 0) {
+    ElMessage.success('Succeeded in deleting the user.')
+    getUserList()
+  } else {
+    ElMessage.error(res.message)
+  }
 }
 
 const getUserList = async () => {
   const res = await httpInstance.get(`/user/page?page=${page.value}&size=${size.value}`)
   tableData.value = res.data.records
-  console.log(tableData.value)
+  pageObject.total = res.data.total
+  pageObject.size = res.data.size
+  pageObject.current = res.data.current
+}
+
+const handleSizeChange = (val) => {
+  console.log(`${val} items per page`)
+}
+
+const handleCurrentChange = (val) => {
+  console.log(`current page: ${val}`)
+  page.value = val
+  getUserList()
 }
 
 onMounted(() => {
@@ -69,23 +159,27 @@ onMounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  infinite-list {
-    height: 300px;
-    padding: 0;
-    margin: 0;
-    list-style: none;
+  position: relative;
+
+  :deep(.el-table) {
+    --el-table-border-color: #e6edf3;
+    --el-table-bg-color: #000000;
+    --el-table-header-text-color: white;
+    --el-table-header-bg-color: #24292f;
+    --el-table-tr-bg-color: #24292f;
+    color: #e6edf3;
+    --el-table-row-hover-bg-color: #555c5f;
+    --el-table-border: 1px solid #e6edf3;
+    --el-border-radius-circle: 20%;
   }
-  .infinite-list .infinite-list-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    background: var(--el-color-primary-light-9);
-    margin: 10px;
-    color: var(--el-color-primary);
-  }
-  .infinite-list .infinite-list-item + .list-item {
-    margin-top: 10px;
-  }
+}
+
+.el-pagination {
+  --el-pagination-bg-color: #24292f;
+  --el-pagination-text-color: #e6edf3;
+  --el-pagination-button-color: #e6edf3;
+  --el-pagination-button-disabled-bg-color: #24292f;
+  position: absolute;
+  bottom: 20px;
 }
 </style>

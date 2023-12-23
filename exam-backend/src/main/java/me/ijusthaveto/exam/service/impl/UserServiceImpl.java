@@ -149,6 +149,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new BusinessException(USER_IMPORT_ERROR);
         }
     }
+
+    @Override
+    public StuDto getUserById(Integer userId) {
+        User user = baseMapper.selectById(userId);
+        Class clazz = classService.getById(user.getClassId());
+        StuDto res = new StuDto();
+        BeanUtils.copyProperties(user, res);
+        res.setClassNo(clazz.getClassNo());
+        return res;
+    }
 }
 
 

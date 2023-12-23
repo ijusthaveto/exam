@@ -22,4 +22,6 @@ public interface UserService extends IService<User> {
     Page<StuDto> selectPage(Integer page, Integer size, String userNo);
 
     void processCsvFile(MultipartFile file, String classNo);
+
+    StuDto getUserById(Integer userId);
 }

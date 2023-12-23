@@ -2,6 +2,7 @@ package me.ijusthaveto.exam.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.ijusthaveto.exam.common.BaseResponse;
 import me.ijusthaveto.exam.common.ResultUtils;
@@ -9,6 +10,7 @@ import me.ijusthaveto.exam.domain.User;
 import me.ijusthaveto.exam.domain.dto.StuDto;
 import me.ijusthaveto.exam.domain.dto.UserLoginDto;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
+import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +19,9 @@ import javax.annotation.Resource;
 
 import java.util.List;
 
+import static me.ijusthaveto.exam.common.ErrorCode.REMOVE_USER_ERROR;
 import static me.ijusthaveto.exam.constant.ResultConstant.IMPORT_USER_SUCCESS;
+import static me.ijusthaveto.exam.constant.ResultConstant.REMOVE_USER_SUCCESS;
 
 @CrossOrigin
 @RestController
@@ -31,6 +35,12 @@ public class UserController {
 
         userService.register(dto);
         return ResultUtils.success(null);
+    }
+
+    @GetMapping("/{userId}")
+    public BaseResponse<StuDto> getUserById(@PathVariable("userId") Integer userId) {
+        StuDto user = userService.getUserById(userId);
+        return ResultUtils.success(user);
     }
 
     @GetMapping("/list")
@@ -48,6 +58,21 @@ public class UserController {
     public BaseResponse logout() {
         StpUtil.logout(StpUtil.getLoginId());
         return ResultUtils.success(null);
+    }
+
+    /**
+     * 删除用户
+     * @param userId
+     * @return
+     */
+    @DeleteMapping("/remove/{userId}")
+    public BaseResponse<String> removeById(@PathVariable("userId") Integer userId) {
+        boolean success = userService.removeById(userId);
+        if (!success) {
+            throw new BusinessException(REMOVE_USER_ERROR);
+        }
+        return ResultUtils.success(REMOVE_USER_SUCCESS);
+
     }
 
     /**

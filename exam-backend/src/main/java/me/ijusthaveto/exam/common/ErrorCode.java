@@ -36,6 +36,7 @@ public enum ErrorCode {
     ENTER_EXAM_ERROR(40120, ResultConstant.ENTER_EXAM_ERROR, ""),
     REPEAT_EXAM_ERROR(40121, ResultConstant.REPEAT_EXAM_ERROR, ""),
     PARSE_STRING_DATE_ERROR(40122, ResultConstant.PARSE_STRING_DATE_ERROR, ""),
+    REMOVE_USER_ERROR(40123, ResultConstant.REMOVE_USER_ERROR, ""),
     SYSTEM_ERROR(50000, "系统内部异常", "");
 
     private final int code;
