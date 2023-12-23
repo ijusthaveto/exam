@@ -7,7 +7,7 @@
       <p>
         <el-radio-group v-model="item.userAnswer" @change="updateUserAnswer">
           <div>
-            <el-radio class="radio-item" :label="key" v-for="(value, key) in JSON.parse(item.options)" :key="key">
+            <el-radio v-for="(value, key) in JSON.parse(item.options)" :key="key" :label="key" class="radio-item">
               {{ key }}. {{ value }}
             </el-radio>
           </div>
@@ -16,9 +16,9 @@
     </div>
   </div>
 </template>
-  
+
 <script setup>
-import { useExamStore } from "@/stores/examStore";
+import {useExamStore} from "@/stores/examStore";
 
 const props = defineProps(["data"]);
 const store = useExamStore()
@@ -33,4 +33,3 @@ const updateUserAnswer = () => {
   width: 50%;
 }
 </style>
-  

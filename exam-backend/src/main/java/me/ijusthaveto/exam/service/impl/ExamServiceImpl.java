@@ -233,7 +233,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         exam.setStartTime(startTime);
         exam.setEndTime(endTime);
 
-        long duration = startTime.getTime() - endTime.getTime();
+        long duration = endTime.getTime() - startTime.getTime();
         long minuteDuration = duration / (60 * 1000);
 
         exam.setLimitTime((int) minuteDuration);

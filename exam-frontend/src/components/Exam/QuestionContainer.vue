@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    <el-scrollbar height="650px">
+    <el-scrollbar height="785px">
       <QuestionList :singleList="singleList" :mutipleList="mutipleList" :boolList="boolList" />
     </el-scrollbar>
   </el-main>

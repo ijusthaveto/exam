@@ -16,6 +16,7 @@ import me.ijusthaveto.exam.domain.Exam;
 import me.ijusthaveto.exam.domain.Question;
 import me.ijusthaveto.exam.domain.dto.ExamDto;
 import me.ijusthaveto.exam.service.ExamService;
+import me.ijusthaveto.exam.utils.OwnUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -158,6 +159,20 @@ class ExamServiceImplTest {
         Date current = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println(sdf.format(current).toString());
+    }
+
+    @Test
+    public void testCalcLimitDateDuration() {
+        String startTime = "2023-12-23 08:00:00";
+        String endTime = "2023-12-23 10:00:00";
+
+        Date start = OwnUtil.dateString2Date(startTime);
+        Date end = OwnUtil.dateString2Date(endTime);
+
+        long duration = start.getTime() - end.getTime();
+        long minuteDuration = duration / (60 * 1000);
+
+        System.out.println(minuteDuration);
     }
 }
 

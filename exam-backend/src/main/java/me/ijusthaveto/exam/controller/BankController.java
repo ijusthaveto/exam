@@ -66,6 +66,11 @@ public class BankController {
         return ResultUtils.success(list);
     }
 
+    @GetMapping("/all")
+    public BaseResponse<List<Bank>> getBankList() {
+        return ResultUtils.success(bankService.list());
+    }
+
     /**
      * 删除题库并删除其相关的题目
      * @param bankId
