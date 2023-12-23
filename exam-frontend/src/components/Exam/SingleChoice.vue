@@ -7,7 +7,9 @@
       <p>
         <el-radio-group v-model="item.userAnswer" @change="updateUserAnswer">
           <div>
-            <el-radio class="radio-item" :label="key" v-for="(value, key) in JSON.parse(item.options)" :key="key">{{ key }}. {{ value }}</el-radio>
+            <el-radio class="radio-item" :label="key" v-for="(value, key) in JSON.parse(item.options)" :key="key">
+              {{ key }}. {{ value }}
+            </el-radio>
           </div>
         </el-radio-group>
       </p>

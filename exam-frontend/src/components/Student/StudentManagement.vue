@@ -1,34 +1,66 @@
 <template>
   <div class='center-container'>
-    Student Management
+    <el-table :data="filterTableData" style="width: 100%">
+      <el-table-column label="UserNo" prop="userNo" />
+      <el-table-column label="Username" prop="username" />
+      <el-table-column label="ClassNo" prop="classNo" />
+      <el-table-column label="Password" prop="passwordHash" />
+      <el-table-column align="right">
+        <template #header>
+          <el-input v-model="search" size="small" placeholder="Type to search" />
+        </template>
+        <template #default="scope">
+          <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
+            >Edit</el-button
+          >
+          <el-button
+            size="small"
+            type="danger"
+            @click="handleDelete(scope.$index, scope.row)"
+            >Delete</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
-<script setup>
-import {onMounted, ref} from 'vue'
+<script lang="ts" setup>
+import {computed, onMounted, ref} from 'vue'
 import httpInstance from '@/utils/http.js'
-import {ElMessage} from 'element-plus'
 
 const tableData = ref([])
+const search = ref('')
 
-const count = ref(0)
-const load = () => {
-  count.value += 2
+const filterTableData = computed(() =>
+  tableData.value.filter(
+    (data) =>
+      !search.value ||
+      data.username.toLowerCase().includes(search.value.toLowerCase())
+  )
+)
+
+const page = ref(1)
+const size = ref(16)
+
+const handleEdit = (index, row) => {
+  console.log(index, row)
 }
 
-const getStudentInfoList = async () => {
-  const res = await httpInstance.get('/user/list')
-  console.log(tableData)
-  if (res.code === 0) {
-    tableData.value = res.data
-  } else {
-    ElMessage.error(res.message)
-  }
+const handleDelete = (index, row) => {
+  console.log(index, row)
+}
+
+const getUserList = async () => {
+  const res = await httpInstance.get(`/user/page?page=${page.value}&size=${size.value}`)
+  tableData.value = res.data.records
+  console.log(tableData.value)
 }
 
 onMounted(() => {
-  getStudentInfoList()
+  getUserList()
 })
+
 </script>
 
 <style lang='scss' scoped>
