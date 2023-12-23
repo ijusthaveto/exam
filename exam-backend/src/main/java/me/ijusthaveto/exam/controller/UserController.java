@@ -20,8 +20,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 import static me.ijusthaveto.exam.common.ErrorCode.REMOVE_USER_ERROR;
-import static me.ijusthaveto.exam.constant.ResultConstant.IMPORT_USER_SUCCESS;
-import static me.ijusthaveto.exam.constant.ResultConstant.REMOVE_USER_SUCCESS;
+import static me.ijusthaveto.exam.constant.ResultConstant.*;
 
 @CrossOrigin
 @RestController
@@ -41,6 +40,12 @@ public class UserController {
     public BaseResponse<StuDto> getUserById(@PathVariable("userId") Integer userId) {
         StuDto user = userService.getUserById(userId);
         return ResultUtils.success(user);
+    }
+
+    @PutMapping
+    public BaseResponse<String> modifyUserInfo(@RequestBody StuDto dto) {
+        userService.modifyUserInfo(dto);
+        return ResultUtils.success(MODIFY_USER_INFO_SUCCESS);
     }
 
     @GetMapping("/list")

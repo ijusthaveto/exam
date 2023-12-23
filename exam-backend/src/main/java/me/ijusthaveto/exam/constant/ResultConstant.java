@@ -29,4 +29,6 @@ public interface ResultConstant {
     String PARSE_STRING_DATE_ERROR = "字符串解析为日期类型失败";
     String REMOVE_USER_SUCCESS = "删除用户成功";
     String REMOVE_USER_ERROR = "删除用户失败";
+    String MODIFY_USER_INFO_SUCCESS = "修改用户信息成功";
+    String MODIFY_USER_INFO_ERROR = "修改用户信息失败";
 }

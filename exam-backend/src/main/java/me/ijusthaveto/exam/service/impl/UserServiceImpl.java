@@ -159,6 +159,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         res.setClassNo(clazz.getClassNo());
         return res;
     }
+
+    @Override
+    public void modifyUserInfo(StuDto dto) {
+        User user = new User();
+        BeanUtils.copyProperties(dto, user);
+        String classNo = dto.getClassNo();
+
+        LambdaQueryWrapper<Class> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Class::getClassNo, classNo);
+        long count = classService.count(wrapper);
+        if (count == 1) {
+            Class one = classService.getOne(wrapper);
+            user.setClassId(one.getClassId());
+        } else if (count == 0) {
+            Class aClass = new Class();
+            aClass.setClassNo(classNo);
+            classService.save(aClass);
+            Class one = classService.getOne(wrapper);
+            user.setClassId(one.getClassId());
+        }
+
+        int result = baseMapper.updateById(user);
+        if (result != 1) {
+            throw new BusinessException(MODIFY_USER_INFO_ERROR);
+        }
+    }
 }
 
 
