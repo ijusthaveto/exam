@@ -72,7 +72,7 @@ public class QuestionController {
      */
     @DeleteMapping("/{questionId}")
     public BaseResponse delete(@PathVariable Integer questionId) {
-        questionService.deleteQuestion(questionId);
+        questionService.removeById(questionId);
         return ResultUtils.success(ResultConstant.REMOVE_QUESTION_SUCCESS);
     }
 

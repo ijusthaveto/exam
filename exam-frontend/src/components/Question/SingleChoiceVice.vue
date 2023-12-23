@@ -178,11 +178,10 @@ const handleChangeUserInfo = async () => {
 }
 
 const handleDelete = async (index, row) => {
-  const userId = row.userId
-  console.log(userId)
-  const res = await httpInstance.delete(`/user/remove/${userId}`)
+  const questionId = row.questionId
+  const res = await httpInstance.delete(`/question/${questionId}`)
   if (res.code === 0) {
-    ElMessage.success('Succeeded in deleting the user.')
+    ElMessage.success('Succeeded in deleting the question.')
     await getSingleQuestionList()
   } else {
     ElMessage.error(res.message)
