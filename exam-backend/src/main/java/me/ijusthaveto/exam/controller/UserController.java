@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.ijusthaveto.exam.common.BaseResponse;
 import me.ijusthaveto.exam.common.ResultUtils;
 import me.ijusthaveto.exam.domain.User;
+import me.ijusthaveto.exam.domain.dto.History;
 import me.ijusthaveto.exam.domain.dto.StuDto;
 import me.ijusthaveto.exam.domain.dto.UserLoginDto;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
@@ -78,6 +79,12 @@ public class UserController {
         }
         return ResultUtils.success(REMOVE_USER_SUCCESS);
 
+    }
+
+    @GetMapping("/history")
+    public BaseResponse<List<History>> page() {
+        List<History> historyPage = userService.selectHistoryScore();
+        return ResultUtils.success(historyPage);
     }
 
     /**

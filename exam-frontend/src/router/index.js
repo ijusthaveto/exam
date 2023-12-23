@@ -124,6 +124,10 @@ const router = createRouter({
     {
       path: '/exam',
       component: Exam
+    },
+    {
+      path: '/history',
+      component: () => import('@/components/common/History.vue')
     }
   ]
 })

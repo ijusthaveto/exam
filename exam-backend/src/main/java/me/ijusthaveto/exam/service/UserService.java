@@ -3,10 +3,13 @@ package me.ijusthaveto.exam.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import me.ijusthaveto.exam.domain.User;
+import me.ijusthaveto.exam.domain.dto.History;
 import me.ijusthaveto.exam.domain.dto.StuDto;
 import me.ijusthaveto.exam.domain.dto.UserLoginDto;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
 * @author 修雯天
@@ -26,4 +29,6 @@ public interface UserService extends IService<User> {
     StuDto getUserById(Integer userId);
 
     void modifyUserInfo(StuDto dto);
+
+    List<History> selectHistoryScore();
 }

@@ -4,15 +4,15 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import me.ijusthaveto.exam.domain.*;
 import me.ijusthaveto.exam.domain.Class;
-import me.ijusthaveto.exam.domain.User;
+import me.ijusthaveto.exam.domain.dto.History;
 import me.ijusthaveto.exam.domain.dto.StuDto;
 import me.ijusthaveto.exam.domain.dto.UserLoginDto;
 import me.ijusthaveto.exam.domain.dto.UserRegisterDto;
 import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.mapper.UserMapper;
-import me.ijusthaveto.exam.service.ClassService;
-import me.ijusthaveto.exam.service.UserService;
+import me.ijusthaveto.exam.service.*;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -42,6 +43,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Resource
     private ClassService classService;
+
+    @Resource
+    private TaskService taskService;
+
+    @Resource
+    private StudentexamService stuExamService;
+
+    @Resource
+    private BankService bankService;
+
+    @Resource
+    private ExamService examService;
+
+    @Resource
+    private SubjectService subjectService;
 
     @Override
     public void register(UserRegisterDto dto) {
@@ -184,6 +200,45 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (result != 1) {
             throw new BusinessException(MODIFY_USER_INFO_ERROR);
         }
+    }
+
+    @Override
+    public List<History> selectHistoryScore() {
+        Integer loginId = (Integer) StpUtil.getSession().get("loginId");
+
+        LambdaQueryWrapper<Studentexam> examUserWrapper = new LambdaQueryWrapper<>();
+        examUserWrapper.eq(Studentexam::getUserId, loginId);
+        List<Studentexam> stuExamList = stuExamService.list(examUserWrapper);
+
+        List<History> historyList = new ArrayList<>();
+
+        for (Studentexam item : stuExamList) {
+            Integer examId = item.getExamId();
+
+            Exam exam = examService.getById(examId);
+            Integer bankId = exam.getBankId();
+            Bank bank = bankService.getById(bankId);
+            Integer subjectId = bank.getSubjectId();
+            Subject subject = subjectService.getById(subjectId);
+
+
+            LambdaQueryWrapper<Task> taskWrapper = new LambdaQueryWrapper<>();
+            taskWrapper.eq(Task::getExamId, examId).eq(Task::getUserId, loginId);
+            Task task = taskService.getOne(taskWrapper);
+            if (Objects.isNull(task)) {
+                continue;
+            }
+            History history = new History();
+            history.setScore(task.getScore());
+            history.setEndTime(task.getUpdateTime());
+            history.setStartTime(task.getCreateTime());
+            history.setExamTitle(exam.getExamTitle());
+            history.setSubjectName(subject.getSubjectName());
+
+            historyList.add(history);
+        }
+
+        return historyList;
     }
 }
 

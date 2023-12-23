@@ -45,7 +45,7 @@ const getExamInfoByExamId = async () => {
   examTime.value = Date.now() + 1000 * 60 * store.limitTime;
 };
 
-const handleSubmit = async () => {
+const autoSavePaper = async () => {
   const res = await httpInstance.post('/exam/auto', {
     single: Array.from(store.singleAnswer),
     multiple: Array.from(store.mutipleAnswer),
@@ -54,24 +54,34 @@ const handleSubmit = async () => {
   });
   if (res.code === 0) {
     ElMessage.success('The test paper is saved successfully.');
+    return true
   } else {
     router.push('/login');
     ElMessage.error(res.message);
+    return false
   }
+}
+
+const handleSubmit = () => {
+  const success = autoSavePaper()
+  if (success) {
+    router.push({
+      path: '/history',
+    })
+  }
+
 };
 
 onBeforeMount(() => {
   getExamInfoByExamId();
 
-  const timer = setInterval(handleSubmit, 60 * 1000);
+  const timer = setInterval(autoSavePaper, 60 * 1000);
 
   onUnmounted(() => {
     clearInterval(timer);
   });
 });
 </script>
-
-
 
 <style scoped>
 .exam-title {
