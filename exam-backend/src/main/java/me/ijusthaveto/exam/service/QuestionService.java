@@ -31,4 +31,11 @@ public interface QuestionService extends IService<Question> {
                                    Integer singleNum,
                                    Integer multipleNum,
                                    Integer boolNum);
+
+    /**
+     * 查询题库中题目个数
+     * @param bankId
+     * @return
+     */
+    Integer selectQuestionNum(Integer bankId, String type);
 }

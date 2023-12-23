@@ -98,6 +98,13 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
 
         return questionList;
     }
+
+    @Override
+    public Integer selectQuestionNum(Integer bankId, String type) {
+        LambdaQueryWrapper<Question> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Question::getBankId, bankId).eq(Question::getQuestionType, type);
+        return Math.toIntExact(baseMapper.selectCount(queryWrapper));
+    }
 }
 
 
