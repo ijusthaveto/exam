@@ -1,20 +1,7 @@
 <template>
   <div class='center-container'>
     <el-table :data="filterTableData" style="width: 100%" height='672px' >
-      <el-table-column label='Question' width='600px'>
-        <template #default='scope'>
-          <el-popover effect='light' trigger='hover' placement='top' width='auto'>
-            <template #default>
-              <div v-for='(value, key) in JSON.parse(scope.row.options)' :key='key'>
-                {{key}}. {{value}}
-              </div>
-            </template>
-            <template #reference>
-              {{scope.row.questionContent}}
-            </template>
-          </el-popover>
-        </template>
-      </el-table-column>
+      <el-table-column label='Question' prop='questionContent' width='600px'/>
       <el-table-column label="Level">
         <template #default='scope'>
           <el-tag effect='dark' :type='handleLevelType(scope.row)'>{{scope.row.difficultyLevel}}</el-tag>

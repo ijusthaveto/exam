@@ -4,14 +4,12 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import me.ijusthaveto.exam.common.ErrorCode;
 import me.ijusthaveto.exam.constant.ExamConstant;
-import me.ijusthaveto.exam.domain.Exam;
-import me.ijusthaveto.exam.domain.Question;
-import me.ijusthaveto.exam.domain.Task;
-import me.ijusthaveto.exam.domain.User;
+import me.ijusthaveto.exam.domain.*;
 import me.ijusthaveto.exam.domain.dto.ExamDto;
 import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.domain.dto.TaskDto;
@@ -26,7 +24,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -218,7 +218,53 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
     @Override
     public void addTest(TestDto dto) {
         Exam exam = new Exam();
+
         exam.setExamTitle(dto.getExamTitle());
+        exam.setBankId(dto.getBankId());
+        exam.setSingleNum(dto.getSingleNum());
+        exam.setSingleScore(dto.getSingleScore());
+        exam.setMultipleNum(dto.getMultipleNum());
+        exam.setMultipleScore(dto.getMultipleScore());
+        exam.setBoolNum(dto.getBoolNum());
+        exam.setBoolScore(dto.getBoolScore());
+
+        Date startTime = OwnUtil.dateString2Date(dto.getStartTime());
+        Date endTime = OwnUtil.dateString2Date(dto.getEndTime());
+        exam.setStartTime(startTime);
+        exam.setEndTime(endTime);
+
+        long duration = startTime.getTime() - endTime.getTime();
+        long minuteDuration = duration / (60 * 1000);
+
+        exam.setLimitTime((int) minuteDuration);
+
+        int result = baseMapper.insert(exam);
+        if (result != 1) {
+            throw new BusinessException(ADD_EXAM_ERROR);
+        }
+
+        LambdaQueryWrapper<Exam> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Exam::getExamTitle, exam.getExamTitle())
+                .eq(Exam::getBankId, exam.getBankId())
+                .eq(Exam::getLimitTime, exam.getLimitTime());
+        Exam resultExam = baseMapper.selectOne(wrapper);
+        if (Objects.isNull(resultExam)) {
+            throw new BusinessException(ADD_EXAM_ERROR);
+        }
+
+        LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(User::getClassId, dto.getClassId());
+        List<User> userList = userMapper.selectList(queryWrapper);
+
+        for (User user : userList) {
+            Studentexam studentexam = new Studentexam();
+            studentexam.setExamId(resultExam.getExamId());
+            studentexam.setUserId(user.getUserId());
+            int success = studentexamMapper.insert(studentexam);
+            if (success != 1) {
+                throw new BusinessException(ADD_EXAM_ERROR);
+            }
+        }
     }
 }
 

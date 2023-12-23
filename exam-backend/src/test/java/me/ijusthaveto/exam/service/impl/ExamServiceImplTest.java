@@ -157,7 +157,7 @@ class ExamServiceImplTest {
     public void testCurrentDate() {
         Date current = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println(sdf.format(current));
+        System.out.println(sdf.format(current).toString());
     }
 }
 
