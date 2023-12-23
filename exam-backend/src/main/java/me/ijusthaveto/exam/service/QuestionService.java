@@ -1,7 +1,9 @@
 package me.ijusthaveto.exam.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import me.ijusthaveto.exam.domain.Question;
 import com.baomidou.mybatisplus.extension.service.IService;
+import me.ijusthaveto.exam.domain.dto.QuestionDetail;
 import me.ijusthaveto.exam.domain.dto.QuestionDto;
 
 import java.util.List;
@@ -38,4 +40,8 @@ public interface QuestionService extends IService<Question> {
      * @return
      */
     Integer selectQuestionNum(Integer bankId, String type);
+
+    Page<QuestionDetail> selectPage(int page, int size, String type);
+
+    QuestionDetail getQuestionDetailById(Integer questionId);
 }

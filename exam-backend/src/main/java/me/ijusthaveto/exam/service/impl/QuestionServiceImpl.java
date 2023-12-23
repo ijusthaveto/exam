@@ -1,25 +1,34 @@
 package me.ijusthaveto.exam.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.ijusthaveto.exam.common.ErrorCode;
 import me.ijusthaveto.exam.constant.QuestionConstant;
 import me.ijusthaveto.exam.constant.ResultConstant;
+import me.ijusthaveto.exam.domain.Bank;
 import me.ijusthaveto.exam.domain.Examquestion;
 import me.ijusthaveto.exam.domain.Question;
+import me.ijusthaveto.exam.domain.Subject;
+import me.ijusthaveto.exam.domain.dto.QuestionDetail;
 import me.ijusthaveto.exam.domain.dto.QuestionDto;
 import me.ijusthaveto.exam.exception.BusinessException;
+import me.ijusthaveto.exam.mapper.BankMapper;
 import me.ijusthaveto.exam.mapper.ExamquestionMapper;
+import me.ijusthaveto.exam.service.BankService;
 import me.ijusthaveto.exam.service.ExamquestionService;
 import me.ijusthaveto.exam.service.QuestionService;
 import me.ijusthaveto.exam.mapper.QuestionMapper;
+import me.ijusthaveto.exam.service.SubjectService;
 import me.ijusthaveto.exam.utils.OwnUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.xml.transform.Result;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static me.ijusthaveto.exam.common.ErrorCode.*;
 
@@ -34,6 +43,12 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
 
     @Resource
     private ExamquestionMapper examquestionMapper;
+
+    @Resource
+    private SubjectService subjectService;
+
+    @Resource
+    private BankMapper bankMapper;
 
     @Override
     public void deleteQuestion(Integer questionId) {
@@ -104,6 +119,43 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
         LambdaQueryWrapper<Question> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Question::getBankId, bankId).eq(Question::getQuestionType, type);
         return Math.toIntExact(baseMapper.selectCount(queryWrapper));
+    }
+
+    @Override
+    public Page<QuestionDetail> selectPage(int page, int size, String type) {
+        LambdaQueryWrapper<Question> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.orderByAsc(Question::getQuestionId).eq(Question::getQuestionType, type);
+        Page<Question> questionPage = new Page<>(page, size);
+        this.page(questionPage, queryWrapper);
+
+        List<Question> records = questionPage.getRecords();
+        Page<QuestionDetail> detailPage = new Page<>();
+        BeanUtils.copyProperties(questionPage, detailPage);
+
+        List<QuestionDetail> collect = records.parallelStream().
+                map(this::enhanceQuestion).collect(Collectors.toList());
+        detailPage.setRecords(collect);
+
+        return detailPage;
+    }
+
+    @Override
+    public QuestionDetail getQuestionDetailById(Integer questionId) {
+        Question question = baseMapper.selectById(questionId);
+        return enhanceQuestion(question);
+    }
+
+    private QuestionDetail enhanceQuestion(Question question) {
+        QuestionDetail detail = new QuestionDetail();
+        BeanUtils.copyProperties(question, detail);
+
+        Subject subject = subjectService.getById(detail.getSubjectId());
+        detail.setSubjectName(subject.getSubjectName());
+
+        Bank bank = bankMapper.selectById(detail.getBankId());
+        detail.setBankTitle(bank.getBankTitle());
+
+        return detail;
     }
 }
 

@@ -9,6 +9,7 @@ import me.ijusthaveto.exam.common.ErrorCode;
 import me.ijusthaveto.exam.common.ResultUtils;
 import me.ijusthaveto.exam.constant.ResultConstant;
 import me.ijusthaveto.exam.domain.Question;
+import me.ijusthaveto.exam.domain.dto.QuestionDetail;
 import me.ijusthaveto.exam.domain.dto.QuestionPageDto;
 import me.ijusthaveto.exam.service.ExamquestionService;
 import me.ijusthaveto.exam.service.QuestionService;
@@ -23,17 +24,20 @@ public class QuestionController {
     @Resource
     private QuestionService questionService;
 
+    @GetMapping("/{questionId}")
+    public BaseResponse<QuestionDetail> getQuestionDetailById(@PathVariable Integer questionId) {
+        return ResultUtils.success(questionService.getQuestionDetailById(questionId));
+    }
+
     /**
      * 题目分页查询
      * @param dto
      * @return
      */
-    @GetMapping("/page")
+    @PostMapping("/page")
     public BaseResponse<Page> page(@RequestBody QuestionPageDto dto) {
-        Page<Question> page = buildPage(dto.getPage(), dto.getSize());
-        LambdaQueryWrapper<Question> wrapper = buildQueryWrapper(dto);
-
-        return ResultUtils.success(questionService.page(page, wrapper));
+        Page<QuestionDetail> questionDetailPage = questionService.selectPage(dto.getPage(), dto.getSize(), dto.getQuestionType());
+        return ResultUtils.success(questionDetailPage);
     }
 
     /**
