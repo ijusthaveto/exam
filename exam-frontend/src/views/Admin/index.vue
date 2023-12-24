@@ -10,7 +10,7 @@
             <router-link to="/admin" style="color: white">Your profile</router-link>
           </el-col>
           <el-col :span="2">
-            <router-link to="/admin" style="color: white">Sign out</router-link>
+            <router-link to="" style="color: white" @click="handleExit">Sign out</router-link>
           </el-col>
         </el-row>
       </el-header>
@@ -81,8 +81,15 @@ import {
   EditPen,
   User,
   Tickets,
-  Checked
 } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router';
+import { ElMessage } from 'element-plus';
+const router = useRouter()
+const handleExit = () => {
+  localStorage.clear()
+  ElMessage.success('Exit successfully.')
+  router.push('/')
+}
 const handleOpen = (key, keyPath) => {
   console.log(key, keyPath)
 }

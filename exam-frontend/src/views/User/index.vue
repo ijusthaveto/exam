@@ -8,6 +8,11 @@ import {ElMessage} from 'element-plus'
 const store = useExamStore()
 
 const router = useRouter()
+const handleExit = () => {
+  localStorage.clear()
+  ElMessage.success('Exit successfully.')
+  router.push('/')
+}
 
 const viewExam = async (examId) => {
   console.log(`Current Exam ID is ${examId}.`)
@@ -39,10 +44,10 @@ onMounted(() => {
             <router-link style="color: white; font-weight: bold" to="/">Online Exam</router-link>
           </el-col>
           <el-col :span="2">
-            <router-link style="color: white" to="/admin">Your profile</router-link>
+            <router-link style="color: white" to="/history">Exam hitory</router-link>
           </el-col>
           <el-col :span="2">
-            <router-link style="color: white" to="/admin">Sign out</router-link>
+            <router-link style="color: white" to="" @click="handleExit">Sign out</router-link>
           </el-col>
         </el-row>
       </el-header>

@@ -12,10 +12,10 @@ import AdminLoginForm from '@/components/Admin/AdminLoginForm.vue'
             <router-link to="/" style="color: white; font-weight: bold">Online Exam</router-link>
           </el-col>
           <el-col :span="2">
-            <router-link to="/admin" style="color: white">Admin profile</router-link>
+            <router-link to="/login" style="color: white">User entry</router-link>
           </el-col>
           <el-col :span="2">
-            <router-link to="/admin" style="color: white">Sign out</router-link>
+            <router-link to="/register" style="color: white">User register</router-link>
           </el-col>
         </el-row>
       </el-header>
