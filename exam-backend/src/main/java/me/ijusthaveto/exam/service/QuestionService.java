@@ -17,12 +17,6 @@ import java.util.List;
 public interface QuestionService extends IService<Question> {
 
     /**
-     * 根据题目ID删除题目，同时移除在考试关联中的记录
-     * @param questionId
-     */
-    void deleteQuestion(Integer questionId);
-
-    /**
      * 随机挑选题目
      * @param bankId
      * @param singleNum

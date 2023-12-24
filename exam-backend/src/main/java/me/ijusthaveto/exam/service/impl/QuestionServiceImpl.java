@@ -6,13 +6,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import me.ijusthaveto.exam.common.ErrorCode;
 import me.ijusthaveto.exam.constant.QuestionConstant;
 import me.ijusthaveto.exam.domain.Bank;
-import me.ijusthaveto.exam.domain.Examquestion;
 import me.ijusthaveto.exam.domain.Question;
 import me.ijusthaveto.exam.domain.Subject;
 import me.ijusthaveto.exam.domain.dto.QuestionDetail;
 import me.ijusthaveto.exam.exception.BusinessException;
 import me.ijusthaveto.exam.mapper.BankMapper;
-import me.ijusthaveto.exam.mapper.ExamquestionMapper;
 import me.ijusthaveto.exam.service.QuestionService;
 import me.ijusthaveto.exam.mapper.QuestionMapper;
 import me.ijusthaveto.exam.service.SubjectService;
@@ -37,33 +35,10 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question>
     implements QuestionService{
 
     @Resource
-    private ExamquestionMapper examquestionMapper;
-
-    @Resource
     private SubjectService subjectService;
 
     @Resource
     private BankMapper bankMapper;
-
-    @Override
-    public void deleteQuestion(Integer questionId) {
-
-        Question question = baseMapper.selectById(questionId);
-        if (question == null) {
-            throw new BusinessException(ErrorCode.QUESTION_NOT_EXISTS);
-        }
-
-        LambdaQueryWrapper<Examquestion> examQuestionWrapper = new LambdaQueryWrapper<>();
-        examQuestionWrapper.eq(Examquestion::getQuestionId, questionId);
-        Long relatedCount = examquestionMapper.selectCount(examQuestionWrapper);
-
-        if (relatedCount > 0) {
-            examquestionMapper.removeQuestionAndRelatedExamRecord(questionId);
-            return;
-        }
-
-        baseMapper.deleteById(questionId);
-    }
 
     @Override
     public List<Question> pickQuestion(Integer bankId,

@@ -49,12 +49,6 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
     private StudentexamMapper studentexamMapper;
 
     @Resource
-    private ExamquestionMapper examquestionMapper;
-
-    @Resource
-    private QuestionMapper questionMapper;
-
-    @Resource
     private UserMapper userMapper;
 
     @Resource
@@ -77,19 +71,6 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         return exams;
     }
 
-    @Override
-    public List<Question> selectQuestionListByExamId(Integer examId) {
-
-        List<Integer> questionIds = examquestionMapper.getQuestionIdsByExamId(examId);
-
-        List<Question> questions = new ArrayList<>();
-        for (Integer questionId : questionIds) {
-            Question question = questionMapper.selectById(questionId);
-            questions.add(question);
-        }
-
-        return questions;
-    }
 
     @Override
     public void addExam(ExamDto dto) {
@@ -182,7 +163,6 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         Integer loginId = (Integer) StpUtil.getSession().get("loginId");
         Double totalScore = 0.0;
 
-
         for (QuestionDto question : single) {
             String userAnswer = question.getUserAnswer();
             String correctAnswer = question.getCorrectAnswer();
@@ -213,6 +193,7 @@ public class ExamServiceImpl extends ServiceImpl<ExamMapper, Exam>
         one.setScore(totalScore);
         one.setUpdateTime(OwnUtil.getCurrentDate());
         taskService.updateById(one);
+
     }
 
     @Override

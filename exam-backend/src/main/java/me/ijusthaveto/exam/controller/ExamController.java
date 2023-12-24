@@ -59,17 +59,6 @@ public class ExamController {
         return ResultUtils.success(examList);
     }
 
-    /**
-     * 根据考试ID查询题目列表
-     *
-     * @param examId
-     * @return
-     */
-    @GetMapping("/{examId}")
-    public BaseResponse<List<Question>> listQuestion(@PathVariable Integer examId) {
-        List<Question> questionList = examService.selectQuestionListByExamId(examId);
-        return ResultUtils.success(questionList);
-    }
 
     /**
      * 批量添加班级考试
@@ -110,7 +99,6 @@ public class ExamController {
 
     @PostMapping("/auto")
     public BaseResponse<String> auto(@RequestBody CalcDto dto) {
-        log.info("dto:\t", dto);
         examService.auto(dto.getSingle(), dto.getMultiple(), dto.getJudge(), dto.getExamId());
         return ResultUtils.success(AUTO_SAVE_TASK_SUCCESS);
     }

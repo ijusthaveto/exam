@@ -42,15 +42,6 @@ class ExamServiceImplTest {
     }
 
     @Test
-    void selectQuestionListByExamId() {
-        Integer examId = 1;
-        List<Question> questions = examService.selectQuestionListByExamId(examId);
-        for (Question question : questions) {
-            System.out.println(question.toString());
-        }
-    }
-
-    @Test
     void testHutoolBeanUtil() {
         ExamDto dto = new ExamDto();
         dto.setClassId(RandomUtil.randomInt());

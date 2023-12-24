@@ -2,10 +2,7 @@ package me.ijusthaveto.exam.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import me.ijusthaveto.exam.constant.QuestionConstant;
-import me.ijusthaveto.exam.constant.ResultConstant;
-import me.ijusthaveto.exam.domain.Examquestion;
 import me.ijusthaveto.exam.domain.Question;
-import me.ijusthaveto.exam.service.ExamquestionService;
 import me.ijusthaveto.exam.service.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,9 +13,6 @@ import javax.annotation.Resource;
 class QuestionControllerTest {
     @Resource
     private QuestionService questionService;
-
-    @Resource
-    private ExamquestionService examquestionService;
 
     @Test
     public void testSaveQuestion() {
@@ -49,21 +43,4 @@ class QuestionControllerTest {
         }
 
     }
-
-    @Test
-    public void testRemoveQuestion() {
-        final Integer questionId = 10;
-        boolean removeResult = questionService.removeById(questionId);
-        LambdaQueryWrapper<Examquestion> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Examquestion::getQuestionId, questionId);
-        boolean anotherRemoveResult = examquestionService.remove(wrapper);
-
-        if (removeResult && anotherRemoveResult) {
-            System.out.println(ResultConstant.REMOVE_QUESTION_SUCCESS);
-        } else {
-            System.out.println(ResultConstant.REMOVE_QUESTION_ERROR);
-        }
-    }
-
-
 }

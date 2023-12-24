@@ -20,8 +20,6 @@ public interface ExamService extends IService<Exam> {
 
     List<Exam> selectExamListById(Integer loginId);
 
-    List<Question> selectQuestionListByExamId(Integer examId);
-
     void addExam(ExamDto dto);
 
     void addClassExam(TaskDto dto);
