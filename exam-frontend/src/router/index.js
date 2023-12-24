@@ -9,19 +9,27 @@ import User from '@/views/User/index.vue'
 import Exam from '@/views/User/components/Exam.vue'
 import Student from '@/views/Admin/components/Student/index.vue'
 import Question from '@/views/Admin/components/Question/index.vue'
-import Grade from '@/views/Admin/components/Grade/index.vue'
 import ExamManagement from '@/views/Admin/components/Exam/index.vue'
 import StudentImportVue from '@/components/Student/StudentImport.vue'
-import StudentGradeManagementVue from '@/components/Grade/StudentGradeManagement.vue'
 import BoolQuestionVue from '@/components/Question/BoolQuestion.vue'
 import MultipleChoiceVue from '@/components/Question/MultipleChoiceVice.vue'
 import QuestionBankVue from '@/components/Question/QuestionBank.vue'
 import SingleChoiceVue from '@/components/Question/SingleChoiceVice.vue'
 import TestPaperImportVue from '@/components/Question/TestPaperImport.vue'
-import PaperAdministrationVue from '@/components/Exam/PaperAdministration.vue'
 import PaperGenerationVue from '@/components/Exam/PaperGeneration.vue'
 import StudentManagementVue from '@/components/Student/StudentManagement.vue'
+import { ElMessage } from 'element-plus'
+const requiredLogin = (to, from, next) => {
+  const loggedIn = localStorage.getItem('loginId') !== null
 
+  if (loggedIn) {
+    next()
+  } else {
+    ElMessage.warning('Please login in first.')
+    next('/')
+  }
+
+}
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -50,6 +58,7 @@ const router = createRouter({
     {
       path: '/admin',
       component: Admin,
+      beforeEnter: requiredLogin,
       children: [
         {
           path: 'student',
@@ -106,14 +115,17 @@ const router = createRouter({
     {
       path: '/user',
       component: User,
+      beforeEnter: requiredLogin,
     },
     {
       path: '/exam',
-      component: Exam
+      component: Exam,
+      beforeEnter: requiredLogin,
     },
     {
       path: '/history',
-      component: () => import('@/components/common/History.vue')
+      component: () => import('@/components/common/History.vue'),
+      beforeEnter: requiredLogin
     }
   ]
 })
