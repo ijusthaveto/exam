@@ -30,6 +30,7 @@ import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { useExamStore } from '@/stores/examStore';
 import httpInstance from '@/utils/http';
+import { walk } from 'vue/compiler-sfc';
 
 const props = defineProps(["singleList", "mutipleList", "boolList"]);
 const store = useExamStore();
@@ -62,20 +63,26 @@ const autoSavePaper = async () => {
   }
 }
 
-const handleSubmit = () => {
-  const success = autoSavePaper()
+const handleSubmit = async () => {
+  const success = await autoSavePaper()
   if (success) {
     router.push({
       path: '/history',
     })
   }
-
 };
 
 onBeforeMount(() => {
   getExamInfoByExamId();
 
-  const timer = setInterval(autoSavePaper, 60 * 1000);
+  const timer = setInterval(async () => {
+    const remainingTime = examTime.value - Date.now() - 100;
+
+    if (remainingTime <= 0) {
+      clearInterval(timer)
+      await handleSubmit()
+    }
+  }, 60 * 1000);
 
   onUnmounted(() => {
     clearInterval(timer);

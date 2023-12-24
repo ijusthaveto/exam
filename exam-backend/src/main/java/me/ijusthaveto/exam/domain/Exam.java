@@ -21,9 +21,9 @@ public class Exam implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer examId;
     private String examTitle;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startTime;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endTime;
     private Integer bankId;
     private Integer limitTime;
