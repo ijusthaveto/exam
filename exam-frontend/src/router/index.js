@@ -59,6 +59,7 @@ const router = createRouter({
       path: '/admin',
       component: Admin,
       beforeEnter: requiredLogin,
+      redirect: '/admin/question/single',
       children: [
         {
           path: 'student',

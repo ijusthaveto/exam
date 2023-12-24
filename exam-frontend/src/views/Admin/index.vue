@@ -61,7 +61,7 @@
                   <span><router-link class="white-link" to="/admin/exam">Exam Paper Management</router-link></span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="3-1"> <router-link class="white-link" to="/admin/exam/generate">Exam Paper
+                  <el-menu-item index="3-1"> <router-link class="white-link" to="/admin/exam/">Exam Paper
                       Generation</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
