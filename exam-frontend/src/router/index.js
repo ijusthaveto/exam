@@ -97,24 +97,10 @@ const router = createRouter({
           children: [
             {
               path: '',
-              component: PaperAdministrationVue
-            },
-            {
-              path: 'generate',
               component: PaperGenerationVue
             }
           ]
         },
-        {
-          path: 'grade',
-          component: Grade,
-          children: [
-            {
-              path: '',
-              component: StudentGradeManagementVue
-            }
-          ]
-        }
       ]
     },
     {

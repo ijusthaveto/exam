@@ -19,8 +19,6 @@
     <h2 class="paper-title">0x03. True or False</h2>
     <TrueOrFalse :data="props.boolList" />
 
-
-
   </div>
 </template>
 
@@ -30,7 +28,6 @@ import { ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
 import { useExamStore } from '@/stores/examStore';
 import httpInstance from '@/utils/http';
-import { walk } from 'vue/compiler-sfc';
 
 const props = defineProps(["singleList", "mutipleList", "boolList"]);
 const store = useExamStore();
@@ -75,17 +72,31 @@ const handleSubmit = async () => {
 onBeforeMount(() => {
   getExamInfoByExamId();
 
+  const handleBeforeUnload = (event) => {
+    const confirmationMessage = 'Are you sure you want to leave? Your progress may be lost.';
+
+    // Standard for most browsers
+    event.returnValue = confirmationMessage;
+
+    // For some older browsers
+    return confirmationMessage;
+  };
+
+  window.addEventListener('beforeunload', handleBeforeUnload);
+
   const timer = setInterval(async () => {
     const remainingTime = examTime.value - Date.now() - 100;
 
     if (remainingTime <= 0) {
-      clearInterval(timer)
-      await handleSubmit()
+      clearInterval(timer);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      await handleSubmit();
     }
   }, 60 * 1000);
 
   onUnmounted(() => {
     clearInterval(timer);
+    window.removeEventListener('beforeunload', handleBeforeUnload);
   });
 });
 </script>

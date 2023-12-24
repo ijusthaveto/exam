@@ -63,20 +63,6 @@
                 <el-menu-item-group>
                   <el-menu-item index="3-1"> <router-link class="white-link" to="/admin/exam/generate">Exam Paper
                       Generation</router-link></el-menu-item>
-                  <el-menu-item index="3-2"> <router-link class="white-link" to="/admin/exam">Exam Paper
-                      Administration</router-link></el-menu-item>
-                </el-menu-item-group>
-              </el-sub-menu>
-              <el-sub-menu index="4">
-                <template #title>
-                  <el-icon>
-                    <Checked />
-                  </el-icon>
-                  <span><router-link class="white-link" to="/admin/grade">Grade Management</router-link></span>
-                </template>
-                <el-menu-item-group>
-                  <el-menu-item index="4-1"><router-link class="white-link" to="/admin/grade">Student Grade
-                      Management</router-link></el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
             </el-menu>
