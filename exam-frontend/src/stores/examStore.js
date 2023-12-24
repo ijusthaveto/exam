@@ -17,7 +17,7 @@ export const useExamStore = defineStore('exam', {
       try {
         const loginId = localStorage.getItem('loginId');
         const res = await httpInstance.get(`/exam/list/${loginId}`);
-        console.log(res)
+        console.log(res.data[0].startTime)
         this.examList = res.data;
       } catch (error) {
         console.error('Error fetching exam list:', error);

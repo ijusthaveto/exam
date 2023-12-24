@@ -27,9 +27,9 @@ public class Task implements Serializable {
     private Integer examId;
     private Double score;
     private Integer status;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

@@ -14,20 +14,29 @@ const handleExit = () => {
   router.push('/')
 }
 
-const viewExam = async (examId) => {
-  console.log(`Current Exam ID is ${examId}.`)
-  const res = await httpInstance.get(`/exam/status/${examId}`)
-  if (res.code === 40121) {
-    ElMessage.error('Please contact the teacher for re-entry.')
-  } else {
-    router.push({
-      path: '/exam',
-      query: {
-        examId: examId
-      }
-    })
-  }
+const viewExam = async (examId, startTime, endTime) => {
+  const currentTime = new Date().getTime()
+  const startDateTime = new Date(startTime).getTime()
+  const endDateTime = new Date(endTime).getTime()
 
+  if (currentTime < startDateTime) {
+    ElMessage.error('The exam has not started yet.')
+  } else if (currentTime > endDateTime && currentTime - endDateTime > 5 * 60 * 1000) {
+    ElMessage.error('The exam has already ended.')
+  } else {
+    console.log(`Current Exam ID is ${examId}.`)
+    const res = await httpInstance.get(`/exam/status/${examId}`)
+    if (res.code === 40121) {
+      ElMessage.error('Please contact the teacher for re-entry.')
+    } else {
+      router.push({
+        path: '/exam',
+        query: {
+          examId: examId
+        }
+      })
+    }
+  }
 }
 
 
@@ -59,7 +68,7 @@ onMounted(() => {
               <div class="exam-start-time exam-item">{{ item.startTime }}</div>
               <div class="exam-end-time exam-item">{{ item.endTime }}</div>
               <div class="exam-link exam-item">
-                <el-link @click="viewExam(item.examId)">View Exam</el-link>
+                <el-link @click="viewExam(item.examId, item.startTime, item.endTime)">View Exam</el-link>
               </div>
             </div>
           </el-col>
