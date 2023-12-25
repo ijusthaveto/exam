@@ -223,7 +223,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
 
             LambdaQueryWrapper<Task> taskWrapper = new LambdaQueryWrapper<>();
-            taskWrapper.eq(Task::getExamId, examId).eq(Task::getUserId, loginId);
+            taskWrapper.eq(Task::getExamId, examId).eq(Task::getUserId, loginId).eq(Task::getStatus, 1);
             Task task = taskService.getOne(taskWrapper);
             if (Objects.isNull(task)) {
                 continue;
