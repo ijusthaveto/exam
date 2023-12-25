@@ -68,9 +68,6 @@ CREATE TABLE `class`  (
 -- ----------------------------
 -- Records of class
 -- ----------------------------
-INSERT INTO `class` VALUES (1, 'Z094211');
-INSERT INTO `class` VALUES (4, 'Z094213');
-INSERT INTO `class` VALUES (5, 'Z094214');
 INSERT INTO `class` VALUES (6, 'Z094212');
 
 -- ----------------------------
