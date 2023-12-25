@@ -153,7 +153,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
             for (CSVRecord record : records) {
                 User user = new User();
-                user.setUsername(record.get(USERNAME));
+                user.setUsername(classNo + "_" + record.get(USERNAME));
                 user.setUserNo(record.get(USER_NO));
                 user.setPasswordHash(DEFAULT_PWD);
                 user.setRoleId(DEFAULT_ROLE);
