@@ -41,6 +41,7 @@ public enum ErrorCode {
     MODIFY_BANK_INFO_ERROR(40125, ResultConstant.MODIFY_BANK_INFO_ERROR, ""),
     MODIFY_QUESTION_INFO_ERROR(40126, ResultConstant.MODIFY_QUESTION_INFO_ERROR, ""),
     ADD_EXAM_ERROR(40127, ResultConstant.ADD_EXAM_ERROR, ""),
+    MISS_ADMIN_IDENTITY(40128, ResultConstant.MISS_ADMIN_IDENTITY, ""),
     SYSTEM_ERROR(50000, "系统内部异常", "");
 
     private final int code;

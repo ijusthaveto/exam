@@ -18,6 +18,7 @@ import SingleChoiceVue from '@/components/Question/SingleChoiceVice.vue'
 import TestPaperImportVue from '@/components/Question/TestPaperImport.vue'
 import PaperGenerationVue from '@/components/Exam/PaperGeneration.vue'
 import StudentManagementVue from '@/components/Student/StudentManagement.vue'
+import httpInstance from '@/utils/http'
 import { ElMessage } from 'element-plus'
 const requiredLogin = (to, from, next) => {
   const loggedIn = localStorage.getItem('loginId') !== null
@@ -29,6 +30,17 @@ const requiredLogin = (to, from, next) => {
     next('/')
   }
 
+}
+
+const isAdmin = async (to, from, next) => {
+  const loginId = localStorage.getItem('loginId')
+  const res = await httpInstance.get(`/admin/${loginId}`)
+  if (res.code === 40128) {
+    ElMessage.error('Invalid identity.')
+    next('/')
+  } else {
+    next()
+  }
 }
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,7 +70,7 @@ const router = createRouter({
     {
       path: '/admin',
       component: Admin,
-      beforeEnter: requiredLogin,
+      beforeEnter: [requiredLogin, isAdmin],
       redirect: '/admin/question/single',
       children: [
         {
